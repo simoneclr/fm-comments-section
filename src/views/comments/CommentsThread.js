@@ -1,17 +1,30 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { selectAllComments } from "../../store/comments/commentsSlice";
+import { selectCommentById } from "../../store/comments/commentsSlice";
 
 // Displays a comments thread
-function CommentsThread() {
-	const comments = useSelector(selectAllComments)
-
-	const renderedComments = comments.map(c => <li key={c.id}>{c.content}</li>)
+function CommentsThread({comment}) {
+	// Select all comments replying to the root comment of this thread
+	const replies = useSelector(state => 
+		comment.replies.map(replyId => selectCommentById(state, replyId))	
+	)
 
 	return (
-		<ul className="comments-thread">
-			{renderedComments}
-		</ul>
+		<li>
+			<article className="comment">
+				{comment.content}
+			</article>
+
+			{
+				replies.length > 0 ?
+
+				<ul className="comments-thread replies-thread">
+					{replies.map(c => <CommentsThread key={c.id} comment={c}/>)}
+				</ul>
+
+				: ""
+			}
+		</li>
 	)
 }
 
