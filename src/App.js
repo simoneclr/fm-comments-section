@@ -4,9 +4,7 @@ import CommentsDashboard from './views/comments/CommentsDashboard';
 
 function App() {
   return (
-    <div>
-      <h1>FM Comments Section</h1>
-
+    <div className='app'>
       <CommentsDashboard/>
     </div>
 
