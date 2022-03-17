@@ -1,13 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
-const initialState = [
-	"Hello World!", "Ciao a tutti"
-]
+const commentsAdapter = createEntityAdapter()
 
 const commentsSlice = createSlice({
 	name: "comments",
-	initialState,
+	initialState: commentsAdapter.getInitialState(),
 	reducers: {}
 })
 
 export default commentsSlice.reducer
+
+export const {
+	selectAll: selectAllComments,
+	selectById: selectCommentById
+} = commentsAdapter.getSelectors(state => state.comments)

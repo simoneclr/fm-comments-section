@@ -1,14 +1,15 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { selectAllComments } from "../../store/comments/commentsSlice";
 
 // Displays a comments thread
 function CommentsThread() {
-	const comments = useSelector(state => state.comments)
+	const comments = useSelector(selectAllComments)
 
-	const renderedComments = comments.map(c => <li key={c}>{c}</li>)
+	const renderedComments = comments.map(c => <li key={c.id}>{c.content}</li>)
 
 	return (
-		<ul>
+		<ul className="comments-thread">
 			{renderedComments}
 		</ul>
 	)
