@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import { selectUserById } from "../../store/users/usersSlice";
+import CommentScoreControl from "./CommentScoreControl";
 
 // Displays a single comment card
 function CommentCard({comment, parent}) {
@@ -10,19 +11,8 @@ function CommentCard({comment, parent}) {
 
 	return (
 		<article className="comment-card">
-			<div className="comment-score">
-				<button className="btn btn-score">
-					<img src="./images/icon-plus.svg" alt="+"/>
-				</button>
-
-				<div>
-					{comment.score}
-				</div>
-
-				<button className="btn btn-score">
-					<img src="./images/icon-minus.svg" alt="-"/>
-				</button>
-			</div>
+			
+			<CommentScoreControl commentId={comment.id}/>
 
 			<div className="comment-header">
 				<img src={user.image.png} alt="" className="comment-picture"/>
