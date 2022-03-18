@@ -18,7 +18,7 @@ function CommentsThread({comment, parent}) {
 				replies.length > 0 ?
 
 				<ul className="comments-thread replies-thread">
-					{replies.map(c => <CommentsThread key={c.id} comment={c} parent={comment.user.username}/>)}
+					{replies.map(c => <CommentsThread key={c.id} comment={c} parent={comment.user}/>)}
 				</ul>
 
 				: ""

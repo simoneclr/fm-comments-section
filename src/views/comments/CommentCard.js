@@ -1,9 +1,12 @@
 import React from "react";
+import { useSelector } from "react-redux";
+
+import { selectUserById } from "../../store/users/usersSlice";
 
 // Displays a single comment card
 function CommentCard({comment, parent}) {
 
-	console.log(parent)
+	const user = useSelector(state => selectUserById(state, comment.user))
 
 	return (
 		<article className="comment-card">
@@ -22,9 +25,9 @@ function CommentCard({comment, parent}) {
 			</div>
 
 			<div className="comment-header">
-				<img src={comment.user.image.png} alt="" className="comment-picture"/>
+				<img src={user.image.png} alt="" className="comment-picture"/>
 				
-				<span className="comment-username">{comment.user.username}</span>
+				<span className="comment-username">{user.username}</span>
 
 				<span className="comment-when">{comment.createdAt}</span>
 			</div>
