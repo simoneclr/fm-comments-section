@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
 import { selectCommentById } from "../../store/comments/commentsSlice";
@@ -10,9 +10,20 @@ import CommentScoreControl from "./CommentScoreControl";
 // Displays a single comment card
 function CommentCard({comment, parentId}) {
 
+	// State variable that controls access to the reply form
+	const [replyFormActive, setReplyFormActive] = useState(false)
+
 	const user = useSelector(state => selectUserById(state, comment.user))
 
 	const parent = useSelector(state => selectCommentById(state, parentId))
+
+	const onReplyButtonClick = (e) => {
+		setReplyFormActive(isActive => !isActive)
+	}
+
+	const handleReplyFormActiveChange = (isActive) => {
+		setReplyFormActive(isActive)
+	}
 
 	return (
 		<React.Fragment>
@@ -29,8 +40,8 @@ function CommentCard({comment, parentId}) {
 				</div>
 
 				<div className="comment-actions">
-					<button className="btn btn-reply">
-						Reply
+					<button className="btn btn-reply" onClick={onReplyButtonClick}>
+						{replyFormActive ? "Cancel" : "Reply"}
 					</button>
 				</div>
 
@@ -40,7 +51,8 @@ function CommentCard({comment, parentId}) {
 				</p>
 			</article>
 
-			<AddCommentForm parentId={comment.id}/>
+			<AddCommentForm parentId={comment.id} 
+											isActive={replyFormActive} handleActiveChange={handleReplyFormActiveChange}/>
 		</React.Fragment>
 	)
 }

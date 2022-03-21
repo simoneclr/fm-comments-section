@@ -191,11 +191,16 @@ body {
 
 /* AddCommentForm */
 .add-comment-form {
+	display: none;
+
 	margin-top: .5rem;
 
-	display: flex;
 	align-items: flex-start;
 	gap: 1rem 1.5rem
+}
+
+.add-comment-form.active {
+	display: flex;
 }
 
 .add-comment-form > textarea {

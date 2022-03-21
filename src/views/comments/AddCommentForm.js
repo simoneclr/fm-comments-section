@@ -4,7 +4,7 @@ import { addComment, selectCommentById } from "../../store/comments/commentsSlic
 
 import { selectLoggedUser, selectUserById } from "../../store/users/usersSlice";
 
-function AddCommentForm({parentId}) {
+function AddCommentForm({parentId, isActive, handleActiveChange}) {
 
 	const loggedUserId = useSelector(selectLoggedUser)
 
@@ -32,13 +32,18 @@ function AddCommentForm({parentId}) {
 	const onSubmit = (e) => {
 		e.preventDefault()
 
-		dispatch(addComment(content, parentId))
+		if (isActive) {
+			dispatch(addComment(content, parentId))
 
-		setContent("")
+			setContent("")
+		}
+
+		handleActiveChange(false)
 	}
 
 	return (
-		<form className="comment-card add-comment-form" onSubmit={onSubmit}>
+		<form onSubmit={onSubmit} 
+					className={"comment-card add-comment-form" + (isActive ? " active" : "")}>
 			<img src={user.image.png} alt="" className="comment-picture"/>
 		
 			<textarea name="commentContent" value={renderedParentName + content} 
