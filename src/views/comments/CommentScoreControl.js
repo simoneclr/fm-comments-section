@@ -26,7 +26,7 @@ function CommentScoreControl({commentId}) {
 			</button>
 
 			<div>
-				{score}
+				{score.value}
 			</div>
 
 			<button name="DOWNVOTE" className="btn btn-score" onClick={onButtonClicked}>

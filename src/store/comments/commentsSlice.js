@@ -1,4 +1,4 @@
-import { createEntityAdapter, createSelector, createSlice } from "@reduxjs/toolkit";
+import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
 const commentsAdapter = createEntityAdapter()
 
@@ -23,8 +23,20 @@ const commentsSlice = createSlice({
 		commentUpvoted: {
 			reducer: (state, action) => {
 				const {commentId, userId} = action.payload
+				
+				// Ckeck what the user has previously voted
+				const previousVote = state.entities[commentId].score.voters[userId]
 
-				state.entities[commentId].score[userId] = 1
+				if (previousVote === -1) {
+					// If the user previously downvoted the comment, increase the score by 2
+					state.entities[commentId].score.value += 2
+				} else if (previousVote === 0 || !previousVote) {
+					// If the user has yet to vote, increase score by 1 
+					state.entities[commentId].score.value += 1
+				}
+
+				// Store that the user has now upvoted the comment
+				state.entities[commentId].score.voters[userId] = 1
 			},
 			prepare: (commentId, userId) => {
 				return {
@@ -40,7 +52,19 @@ const commentsSlice = createSlice({
 			reducer: (state, action) => {
 				const {commentId, userId} = action.payload
 
-				state.entities[commentId].score[userId] = -1
+				// Ckeck what the user has previously voted
+				const previousVote = state.entities[commentId].score.voters[userId]
+
+				if (previousVote === 1) {
+					// If the user previously upvoted the comment, decrease the score by 2
+					state.entities[commentId].score.value -= 2
+				} else if (previousVote === 0 || !previousVote) {
+					// If the user has yet to vote, decrease score by 1 
+					state.entities[commentId].score.value -= 1
+				}
+
+				// Store that the user has now downvoted the comment
+				state.entities[commentId].score.voters[userId] = -1
 			},
 			prepare: (commentId, userId) => {
 				return {
@@ -64,9 +88,4 @@ export const {
 } = commentsAdapter.getSelectors(state => state.comments)
 
 // Select score of a given comment
-export const selectCommentScoreById = createSelector(
-	[selectCommentById],
-	comment => Object.entries(comment.score).reduce((sum, [username, vote]) => {
-		return sum += vote
-	}, 0)
-)
+export const selectCommentScoreById = (state, commentId) => state.comments.entities[commentId].score
