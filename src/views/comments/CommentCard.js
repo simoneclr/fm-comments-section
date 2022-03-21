@@ -16,7 +16,7 @@ function CommentCard({comment, parentId}) {
 
 	return (
 		<React.Fragment>
-			<article className="comment-card">
+			<article className="comment-card comment-card-grid">
 				
 				<CommentScoreControl commentId={comment.id}/>
 

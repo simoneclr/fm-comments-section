@@ -60,6 +60,14 @@ body {
 	opacity: .9;
 }
 
+.btn-primary {
+	text-transform: uppercase;
+	color: var(--white);
+	background-color: var(--moderate-blue);
+	padding: 1rem 1.5rem;
+	border-radius: .5rem;
+}
+
 /* COMMENTS */
 
 .comments-dashboard {
@@ -90,7 +98,9 @@ body {
 	background-color: var(--white);
 	border-radius: .5rem;
 	box-shadow: 0 .5rem 2rem -1.5rem var(--light-grayish-blue);
+}
 
+.comment-card-grid {
 	display: grid;
 	grid-template-areas: 
 		"score header actions"
@@ -171,4 +181,29 @@ body {
 .comment-parent {
 	color: var(--moderate-blue);
 	font-weight: var(--weight-medium);
+}
+
+/* AddCommentForm */
+.add-comment-form {
+	margin-top: .5rem;
+
+	display: flex;
+	align-items: flex-start;
+	gap: 1rem 1.5rem
+}
+
+.add-comment-form > textarea {
+	flex-grow: 1;
+	resize: none;
+
+	font-family: "Rubik", sans-serif;
+	font-size: 1em;
+	color: var(--grayish-blue);
+	line-height: 1.5em;
+	padding: 1rem;
+	border-radius: .5rem;
+}
+
+.add-comment-form > textarea:focus {
+	outline: 1px solid var(--moderate-blue);
 }
