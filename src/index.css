@@ -100,6 +100,7 @@ body {
 	gap: 1rem 1.5rem;
 }
 
+/* COMMENT SCORE CONTROL */
 .comment-score {
 	grid-area: score;
 	align-self: flex-start;
@@ -119,9 +120,14 @@ body {
 .btn-score {
 	color: var(--light-grayish-blue);
 	line-height: 0;
-	height: 1em;
-	padding: 0;
-	margin: 0 .7rem;
+	height: 1.5rem;
+	padding: .2rem;
+	margin: 0 .5rem;
+	border-radius: .1rem;
+}
+
+.btn-score.user-vote {
+	background-color: var(--moderate-blue);
 }
 
 .btn-score > img {
