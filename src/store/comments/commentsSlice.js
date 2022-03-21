@@ -16,9 +16,18 @@ export const downvoteComment = (commentId) => (dispatch, getState) => {
 	dispatch(commentDownvoted(commentId, loggedUser))
 }
 
+// Thunk function that reads the logged user from global state before adding a new comment
+export const addComment = (content, parentId) => (dispatch, getState) => {
+	const loggedUser = getState().users.loggedIn
+
+	dispatch(commentAdded(loggedUser, content, parentId))
+}
+
 const commentsSlice = createSlice({
 	name: "comments",
-	initialState: commentsAdapter.getInitialState(),
+	initialState: commentsAdapter.getInitialState({
+		latestId: 0
+	}),
 	reducers: {
 		commentUpvoted: {
 			reducer: (state, action) => {
@@ -74,13 +83,53 @@ const commentsSlice = createSlice({
 					}
 				}
 			}
+		},
+
+		commentAdded: {
+			reducer: (state, action) => {
+				const {userId, content, parentId} = action.payload
+
+				// Increase latest id
+				// TODO: add proper id generation
+				state.latestId++
+
+				// Create new comment
+				const newComment = {
+					"id": state.latestId,
+					"user": userId,
+					"content": content,
+					"createdAt": "Just now",
+					"score": {
+						value: 0,
+						voters: {}
+					},
+					"repliesTo": parentId,
+					"replies": []
+				}
+
+				// Add new comment's id to parent's replies array
+				state.entities[parentId].replies.push(newComment.id)
+
+				// Add new comment using the adapter function
+				commentsAdapter.addOne(state, newComment)
+			},
+			prepare: (userId, content, parentId) => {
+				return {
+					payload: {
+						userId,
+						content,
+						parentId
+					}
+				}
+			}
 		}
 	}
 })
 
 export default commentsSlice.reducer
 
-export const {commentUpvoted, commentDownvoted} = commentsSlice.actions
+// Actions that are not exported because they are accessed via thunks
+const {commentUpvoted, commentDownvoted, commentAdded} = commentsSlice.actions
 
 export const {
 	selectAll: selectAllComments,

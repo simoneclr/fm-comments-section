@@ -55,7 +55,8 @@ const preloadedState = {
 				"repliesTo": 2,
 				"replies": []
 			}
-		}
+		},
+		latestId: 4
 	},
 	users: {
 		ids: ["amyrobson", "maxblagun", "ramsesmiron", "juliusomo"],
