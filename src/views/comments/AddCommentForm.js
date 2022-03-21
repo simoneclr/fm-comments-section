@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addComment } from "../../store/comments/commentsSlice";
+import { addComment, selectCommentById } from "../../store/comments/commentsSlice";
 
 import { selectLoggedUser, selectUserById } from "../../store/users/usersSlice";
 
@@ -10,13 +10,23 @@ function AddCommentForm({parentId}) {
 
 	const user = useSelector(state => selectUserById(state, loggedUserId))
 
+	const parent = useSelector(state => selectCommentById(state, parentId))
+
+	// Static text showing the username the user is replying to
+	const renderedParentName = "@" + parent.user + " "
+
 	// State variable that controls the textarea
 	const [content, setContent] = useState("")
 
 	const dispatch = useDispatch()
 
 	const onContentChange = (e) => {
-		setContent(e.target.value)
+		let text = (e.target.value)
+
+		// Remove the static parent name from the text area value before updating state
+		text = text.slice(renderedParentName.length)
+
+		setContent(text)
 	}
 
 	const onSubmit = (e) => {
@@ -31,10 +41,11 @@ function AddCommentForm({parentId}) {
 		<form className="comment-card add-comment-form" onSubmit={onSubmit}>
 			<img src={user.image.png} alt="" className="comment-picture"/>
 		
-			<textarea name="commentContent" value={content} onChange={onContentChange} rows="3">
+			<textarea name="commentContent" value={renderedParentName + content} 
+								onChange={onContentChange} rows="3">
 			</textarea>
 
-			<button type="submit" className="btn btn-primary">Reply</button>
+			<button type="submit" className="btn btn-primary" disabled={content.length <= 0}>Reply</button>
 		</form>
 	)
 }

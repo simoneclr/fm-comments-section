@@ -68,6 +68,12 @@ body {
 	border-radius: .5rem;
 }
 
+.btn-primary:disabled {
+	cursor: initial;
+	background-color: var(--grayish-blue);
+	opacity: .7;
+}
+
 /* COMMENTS */
 
 .comments-dashboard {
