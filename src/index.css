@@ -190,6 +190,7 @@ body {
 	border-radius: .2rem;
 }
 
+/* CommentActions */
 .comment-actions {
 	grid-area: actions;
 	
@@ -197,6 +198,16 @@ body {
 	justify-content: flex-end;
 	align-items: center;
 	gap: 1rem;
+}
+
+.btn-action {
+	display: flex;
+	align-items: center;
+	gap: .5rem;
+}
+
+.btn-delete {
+	color: var(--soft-red);
 }
 
 .comment-content {

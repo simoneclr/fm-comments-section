@@ -6,6 +6,7 @@ import { selectCommentById } from "../../store/comments/commentsSlice";
 import AddCommentForm from "./AddCommentForm";
 import CommentScoreControl from "./CommentScoreControl";
 import CommentAuthor from "../users/CommentAuthor.js"
+import CommentActions from "./CommentActions";
 
 // Displays a single comment card
 function CommentCard({commentId, parentId}) {
@@ -39,11 +40,8 @@ function CommentCard({commentId, parentId}) {
 					<span className="comment-when">{comment.createdAt}</span>
 				</div>
 
-				<div className="comment-actions">
-					<button className="btn btn-reply" onClick={onReplyButtonClick}>
-						{replyFormActive ? "Cancel" : "Reply"}
-					</button>
-				</div>
+				<CommentActions userId={comment.user} handleAction={onReplyButtonClick} 
+												replyFormActive={replyFormActive}/>
 
 				<p className="comment-content">
 					{parent ? <span className="comment-parent">@{parent.user} </span> : "" }
