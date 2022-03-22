@@ -1,26 +1,24 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { selectAllComments } from "../../store/comments/commentsSlice";
+import { selectRootCommentsIds } from "../../store/comments/commentsSlice";
 
 import AddCommentForm from "./AddCommentForm";
 import CommentsThread from "./CommentsThread";
 
 // Displays the main comments page
 function CommentsDashboard() {
-	const comments = useSelector(selectAllComments)
-
-	// Select all root comments
-	const rootComments = comments.filter(c => c.repliesTo === -1)
+	// Select ids of all root comments
+	const rootCommentIds = useSelector(selectRootCommentsIds)
 
 	return (
 		<section className="comments-dashboard">
 			{/* Display a thread starting with each root comment */}
 			<ul className="comments-thread root-thread">
-				{rootComments.map(c => <CommentsThread key={c.id} comment={c}/>)}
+				{rootCommentIds.map(commentId => <CommentsThread key={commentId} commentId={commentId}/>)}
 			</ul>
 
-			<AddCommentForm isActive={true} handleActiveChange={isActive => true} />
+			<AddCommentForm isActive={true} handleActiveChange={(isActive) => true} />
 		</section>
 	)
 }

@@ -8,13 +8,18 @@ import AddCommentForm from "./AddCommentForm";
 import CommentScoreControl from "./CommentScoreControl";
 
 // Displays a single comment card
-function CommentCard({comment, parentId}) {
+function CommentCard({commentId, parentId}) {
 
 	// State variable that controls access to the reply form
 	const [replyFormActive, setReplyFormActive] = useState(false)
 
+	// Select the comment to display
+	const comment = useSelector(state => selectCommentById(state, commentId))
+
+	// Select information about the user who posted the comment to display
 	const user = useSelector(state => selectUserById(state, comment.user))
 
+	// Select information about the comment this comment is replying to (if any) 
 	const parent = useSelector(state => selectCommentById(state, parentId))
 
 	const onReplyButtonClick = (e) => {
@@ -29,7 +34,7 @@ function CommentCard({comment, parentId}) {
 		<React.Fragment>
 			<article className="comment-card comment-card-grid">
 				
-				<CommentScoreControl commentId={comment.id}/>
+				<CommentScoreControl commentId={commentId}/>
 
 				<div className="comment-header">
 					<img src={user.image.png} alt="" className="comment-picture"/>
@@ -51,8 +56,9 @@ function CommentCard({comment, parentId}) {
 				</p>
 			</article>
 
-			<AddCommentForm parentId={comment.id} 
-											isActive={replyFormActive} handleActiveChange={handleReplyFormActiveChange}/>
+			<AddCommentForm parentId={commentId} isActive={replyFormActive}
+											handleActiveChange={handleReplyFormActiveChange}/>
+			
 		</React.Fragment>
 	)
 }

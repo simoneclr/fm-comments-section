@@ -1,4 +1,4 @@
-import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
+import { createEntityAdapter, createSelector, createSlice } from "@reduxjs/toolkit";
 
 const commentsAdapter = createEntityAdapter()
 
@@ -142,9 +142,16 @@ export default commentsSlice.reducer
 const {commentUpvoted, commentDownvoted, commentAdded} = commentsSlice.actions
 
 export const {
+	selectIds: selectCommentIds,
 	selectAll: selectAllComments,
 	selectById: selectCommentById
 } = commentsAdapter.getSelectors(state => state.comments)
+
+// Select ids of root comments
+export const selectRootCommentsIds = createSelector(
+	[selectAllComments],
+	comments => comments.filter(c => c.repliesTo === -1).map(c => c.id)
+)
 
 // Select score of a given comment
 export const selectCommentScoreById = (state, commentId) => state.comments.entities[commentId].score
