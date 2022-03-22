@@ -68,6 +68,11 @@ body {
 	border-radius: .5rem;
 }
 
+.btn-primary:focus {
+	outline: 2px solid var(--moderate-blue);
+	outline-offset: 2px;
+}
+
 .btn-primary:disabled {
 	cursor: initial;
 	background-color: var(--grayish-blue);
