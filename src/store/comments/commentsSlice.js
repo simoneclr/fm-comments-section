@@ -93,6 +93,13 @@ const commentsSlice = createSlice({
 				// TODO: add proper id generation
 				state.latestId++
 
+				let repliesTo = parentId
+
+				// If no parent id has been provided, set parentId to -1 to show the new comment is a root comment
+				if (!parentId) {
+					repliesTo = -1
+				}
+
 				// Create new comment
 				const newComment = {
 					"id": state.latestId,
@@ -103,12 +110,15 @@ const commentsSlice = createSlice({
 						value: 0,
 						voters: {}
 					},
-					"repliesTo": parentId,
+					"repliesTo": repliesTo,
 					"replies": []
 				}
 
-				// Add new comment's id to parent's replies array
-				state.entities[parentId].replies.push(newComment.id)
+				// Check if the new comment is replying to someone
+				if (state.entities.hasOwnProperty(parentId)) {
+					// Add new comment's id to parent's replies array
+					state.entities[parentId].replies.push(newComment.id)
+				}
 
 				// Add new comment using the adapter function
 				commentsAdapter.addOne(state, newComment)

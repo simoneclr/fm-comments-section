@@ -1,7 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
+
 import { selectAllComments } from "../../store/comments/commentsSlice";
 
+import AddCommentForm from "./AddCommentForm";
 import CommentsThread from "./CommentsThread";
 
 // Displays the main comments page
@@ -17,6 +19,8 @@ function CommentsDashboard() {
 			<ul className="comments-thread root-thread">
 				{rootComments.map(c => <CommentsThread key={c.id} comment={c}/>)}
 			</ul>
+
+			<AddCommentForm isActive={true} handleActiveChange={isActive => true} />
 		</section>
 	)
 }

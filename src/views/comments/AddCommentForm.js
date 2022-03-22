@@ -1,25 +1,33 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addComment, selectCommentById } from "../../store/comments/commentsSlice";
 
+import { addComment, selectCommentById } from "../../store/comments/commentsSlice";
 import { selectLoggedUser, selectUserById } from "../../store/users/usersSlice";
 
 function AddCommentForm({parentId, isActive, handleActiveChange}) {
 
+	// Select the username of the user currently logged in
 	const loggedUserId = useSelector(selectLoggedUser)
 
+	// Select the information of the logged in user
 	const user = useSelector(state => selectUserById(state, loggedUserId))
 
+	// Select information obout the comment the form is replying to (if any)
 	const parent = useSelector(state => selectCommentById(state, parentId))
 
-	// Static text showing the username the user is replying to
-	const renderedParentName = "@" + parent.user + " "
+	// If the comment is a reply, build Static text showing the username the user is replying to
+	let renderedParentName = ""
+ 
+	if (parent) {
+		renderedParentName = "@" + parent.user + " "
+	}
 
 	// State variable that controls the textarea
 	const [content, setContent] = useState("")
 
 	const dispatch = useDispatch()
 
+	// Handles content changes in the text area
 	const onContentChange = (e) => {
 		let text = (e.target.value)
 
@@ -29,6 +37,7 @@ function AddCommentForm({parentId, isActive, handleActiveChange}) {
 		setContent(text)
 	}
 
+	// Handles form submission
 	const onSubmit = (e) => {
 		e.preventDefault()
 
@@ -46,11 +55,13 @@ function AddCommentForm({parentId, isActive, handleActiveChange}) {
 					className={"comment-card add-comment-form" + (isActive ? " active" : "")}>
 			<img src={user.image.png} alt="" className="comment-picture"/>
 		
-			<textarea name="commentContent" value={renderedParentName + content} 
+			<textarea name="commentContent" value={renderedParentName + content} placeholder="Add a new comment..."
 								onChange={onContentChange} rows="3">
 			</textarea>
 
-			<button type="submit" className="btn btn-primary" disabled={content.length <= 0}>Reply</button>
+			<button type="submit" className="btn btn-primary" disabled={content.length <= 0}>
+				{parent ? "Reply" : "Send"}
+			</button>
 		</form>
 	)
 }
