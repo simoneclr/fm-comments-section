@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
 import { selectCommentById } from "../../store/comments/commentsSlice";
-import { selectUserById } from "../../store/users/usersSlice";
 
 import AddCommentForm from "./AddCommentForm";
 import CommentScoreControl from "./CommentScoreControl";
+import CommentAuthor from "../users/CommentAuthor.js"
 
 // Displays a single comment card
 function CommentCard({commentId, parentId}) {
@@ -15,9 +15,6 @@ function CommentCard({commentId, parentId}) {
 
 	// Select the comment to display
 	const comment = useSelector(state => selectCommentById(state, commentId))
-
-	// Select information about the user who posted the comment to display
-	const user = useSelector(state => selectUserById(state, comment.user))
 
 	// Select information about the comment this comment is replying to (if any) 
 	const parent = useSelector(state => selectCommentById(state, parentId))
@@ -37,9 +34,7 @@ function CommentCard({commentId, parentId}) {
 				<CommentScoreControl commentId={commentId}/>
 
 				<div className="comment-header">
-					<img src={user.image.png} alt="" className="comment-picture"/>
-					
-					<span className="comment-username">{user.username}</span>
+					<CommentAuthor userId={comment.user} />
 
 					<span className="comment-when">{comment.createdAt}</span>
 				</div>

@@ -162,10 +162,27 @@ body {
 	height: 2.5em;
 }
 
+/* CommentAuthor */
+.comment-author {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
 .comment-username {
 	color: var(--dark-blue);
 	font-size: 1.1em;
 	font-weight: var(--weight-medium);
+}
+
+.logged-in-tag {
+	display: block;
+	text-transform: lowercase;
+	color: var(--white);
+	font-weight: var(--weight-medium);
+	background-color: var(--moderate-blue);
+	padding: 0 .5rem .2rem .5rem;
+	border-radius: .2rem;
 }
 
 .comment-actions {
