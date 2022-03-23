@@ -18,7 +18,7 @@ function CommentsDashboard() {
 				{rootCommentIds.map(commentId => <CommentsThread key={commentId} commentId={commentId}/>)}
 			</ul>
 
-			<AddCommentForm isActive={true} handleActiveChange={(isActive) => true} />
+			<AddCommentForm isActive={true} changeFormActive={(name, isActive) => true} />
 		</section>
 	)
 }

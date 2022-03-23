@@ -132,6 +132,26 @@ const commentsSlice = createSlice({
 					}
 				}
 			}
+		},
+
+		commentEdited: {
+			reducer: (state, action) => {
+				const {commentId, content} = action.payload
+
+				const existingComment = state.entities[commentId]
+
+				if (existingComment) {
+					existingComment.content = content
+				}
+			},
+			prepare: (commentId, content) => {
+				return {
+					payload: {
+						commentId,
+						content
+					}
+				}
+			}
 		}
 	}
 })
@@ -140,6 +160,9 @@ export default commentsSlice.reducer
 
 // Actions that are not exported because they are accessed via thunks
 const {commentUpvoted, commentDownvoted, commentAdded} = commentsSlice.actions
+
+// Exported actions
+export const {commentEdited} = commentsSlice.actions
 
 export const {
 	selectIds: selectCommentIds,

@@ -210,9 +210,12 @@ body {
 	color: var(--soft-red);
 }
 
+/* EditableCommentContent */
 .comment-content {
 	grid-area: content;
+}
 
+.comment-content > p {
 	line-height: 1.5em;
 	margin: 0;
 }
@@ -220,6 +223,31 @@ body {
 .comment-parent {
 	color: var(--moderate-blue);
 	font-weight: var(--weight-medium);
+}
+
+.comment-content > form {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 1rem;
+}
+
+.comment-content .btn-primary {
+	align-self: flex-end;
+}
+
+.comment-content-input {
+	resize: none;
+	font-family: "Rubik", sans-serif;
+	font-size: 1em;
+	color: var(--grayish-blue);
+	line-height: 1.5em;
+	padding: 1rem;
+	border-radius: .5rem;
+}
+
+.comment-content-input:focus {
+	outline: 1px solid var(--moderate-blue);
 }
 
 /* AddCommentForm */
@@ -236,18 +264,7 @@ body {
 	display: flex;
 }
 
-.add-comment-form > textarea {
+.add-comment-form > .comment-content-input {
 	flex-grow: 1;
-	resize: none;
-
-	font-family: "Rubik", sans-serif;
-	font-size: 1em;
-	color: var(--grayish-blue);
-	line-height: 1.5em;
-	padding: 1rem;
-	border-radius: .5rem;
-}
-
-.add-comment-form > textarea:focus {
-	outline: 1px solid var(--moderate-blue);
+	
 }

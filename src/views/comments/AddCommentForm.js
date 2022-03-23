@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addComment, selectCommentById } from "../../store/comments/commentsSlice";
 import { selectLoggedUser, selectUserById } from "../../store/users/usersSlice";
 
-function AddCommentForm({parentId, isActive, handleActiveChange}) {
+function AddCommentForm({parentId, isActive, changeFormActive}) {
 
 	// Select the username of the user currently logged in
 	const loggedUserId = useSelector(selectLoggedUser)
@@ -47,7 +47,7 @@ function AddCommentForm({parentId, isActive, handleActiveChange}) {
 			setContent("")
 		}
 
-		handleActiveChange(false)
+		changeFormActive("reply", false)
 	}
 
 	return (
@@ -55,8 +55,8 @@ function AddCommentForm({parentId, isActive, handleActiveChange}) {
 					className={"comment-card add-comment-form" + (isActive ? " active" : "")}>
 			<img src={user.image.png} alt="" className="comment-picture"/>
 		
-			<textarea name="commentContent" value={renderedParentName + content} placeholder="Add a new comment..."
-								onChange={onContentChange} rows="3">
+			<textarea name="commentContent" value={renderedParentName + content} onChange={onContentChange}
+								className="comment-content-input" placeholder="Add a new comment..." rows="3">
 			</textarea>
 
 			<button type="submit" className="btn btn-primary" disabled={content.length <= 0}>

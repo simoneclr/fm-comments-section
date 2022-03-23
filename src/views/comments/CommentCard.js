@@ -7,6 +7,7 @@ import AddCommentForm from "./AddCommentForm";
 import CommentScoreControl from "./CommentScoreControl";
 import CommentAuthor from "../users/CommentAuthor.js"
 import CommentActions from "./CommentActions";
+import EditableCommentContent from "./EditableCommentContent";
 
 // Displays a single comment card
 function CommentCard({commentId, parentId}) {
@@ -14,18 +15,42 @@ function CommentCard({commentId, parentId}) {
 	// State variable that controls access to the reply form
 	const [replyFormActive, setReplyFormActive] = useState(false)
 
+	// State variable that controls access to the edit form
+	const [editFormActive, setEditFormActive] = useState(false)
+
 	// Select the comment to display
 	const comment = useSelector(state => selectCommentById(state, commentId))
 
-	// Select information about the comment this comment is replying to (if any) 
-	const parent = useSelector(state => selectCommentById(state, parentId))
+	// Handles action buttons clicks
+	const onActionButtonClick = (e) => {
+		switch(e.currentTarget.name) {
+			case "reply": setReplyFormActive(isActive => !isActive); 
+				break;
 
-	const onReplyButtonClick = (e) => {
-		setReplyFormActive(isActive => !isActive)
+			case "edit": setEditFormActive(isActive => !isActive);
+				break;
+			
+			case "delete": ;
+				break;
+				
+			default: break;
+		}
 	}
 
-	const handleReplyFormActiveChange = (isActive) => {
-		setReplyFormActive(isActive)
+	// Allow nested components to change display status of their respective forms
+	const changeFormsActive = (name, isActive) => {
+		switch(name) {
+			case "reply": setReplyFormActive(isActive); 
+				break;
+
+			case "edit": setEditFormActive(isActive);
+				break;
+			
+			case "delete": ;
+				break;
+
+			default: break;
+		}
 	}
 
 	return (
@@ -40,17 +65,15 @@ function CommentCard({commentId, parentId}) {
 					<span className="comment-when">{comment.createdAt}</span>
 				</div>
 
-				<CommentActions userId={comment.user} handleAction={onReplyButtonClick} 
-												replyFormActive={replyFormActive}/>
+				<CommentActions userId={comment.user} handleAction={onActionButtonClick} 
+												replyFormActive={replyFormActive} editFormActive={editFormActive}/>
 
-				<p className="comment-content">
-					{parent ? <span className="comment-parent">@{parent.user} </span> : "" }
-					{comment.content}
-				</p>
+				<EditableCommentContent commentId={commentId} isActive={editFormActive}
+																changeFormActive={changeFormsActive}/>
 			</article>
 
 			<AddCommentForm parentId={commentId} isActive={replyFormActive}
-											handleActiveChange={handleReplyFormActiveChange}/>
+											changeFormActive={changeFormsActive}/>
 			
 		</React.Fragment>
 	)

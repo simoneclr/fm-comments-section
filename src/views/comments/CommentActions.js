@@ -33,7 +33,7 @@ const ActionButton = ({name, isActive, handleClick}) => {
 }
 
 // Displays available actions for a comment
-function CommentActions({userId, handleAction, replyFormActive}) {
+function CommentActions({userId, handleAction, replyFormActive, editFormActive}) {
 
 	// Select username of the logged-in user
 	const loggedIn = useSelector(selectLoggedUser)
@@ -48,9 +48,9 @@ function CommentActions({userId, handleAction, replyFormActive}) {
 	if (isAuthor) {
 		renderedButtons = [
 			// Delete button
-			<ActionButton name={"delete"} isActive={replyFormActive} handleClick={handleAction}/>,
+			<ActionButton name={"delete"} isActive={false} handleClick={handleAction}/>,
 			// Edit button
-			<ActionButton name={"edit"} isActive={replyFormActive} handleClick={handleAction}/>
+			<ActionButton name={"edit"} isActive={editFormActive} handleClick={handleAction}/>
 		]
 	} else {
 		renderedButtons = [
