@@ -10,7 +10,7 @@ import CommentActions from "./CommentActions";
 import EditableCommentContent from "./EditableCommentContent";
 
 // Displays a single comment card
-function CommentCard({commentId, parentId}) {
+function CommentCard({commentId}) {
 
 	// State variable that controls access to the reply form
 	const [replyFormActive, setReplyFormActive] = useState(false)

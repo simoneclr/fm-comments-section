@@ -6,14 +6,14 @@ import { selectCommentById } from "../../store/comments/commentsSlice";
 import CommentCard from "./CommentCard";
 
 // Displays a comments thread
-function CommentsThread({commentId, parentId}) {
+function CommentsThread({commentId}) {
 	// Select the root comment for this thread
 	const comment = useSelector(state => selectCommentById(state, commentId))
 
 	return (
 		<li>
 			{/* Display a card for the root comment of this thread */}
-			<CommentCard commentId={commentId} parentId={parentId}/>
+			<CommentCard commentId={commentId}/>
 
 			{	/* If the root comment has any replies, display a new thread for each of them */
 				comment.replies.length > 0 ?
