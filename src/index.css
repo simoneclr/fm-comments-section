@@ -27,18 +27,18 @@
 }
 
 body {
-	position: relative;
 	font-family: "Rubik", sans-serif;
 	color: var(--grayish-blue);
 	font-size: 16px;
 	font-weight: var(--weight-light);
 	padding: 0;
 	margin: 0;
+	background-color: var(--very-light-gray);
 }
 
 .app {
 	min-height: 100vh;
-	background-color: var(--very-light-gray);
+	
 }
 
 /* SHARED */
@@ -288,7 +288,7 @@ body {
 
 /* DeleteCommentModal */
 .modal-container {
-	position: absolute;
+	position: fixed;
 	left: 0;
 	top: 0;
 	right: 0;

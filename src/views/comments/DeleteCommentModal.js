@@ -1,10 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { commentDeleted } from "../../store/comments/commentsSlice";
 
 // Displays a modal asking for confirmation when attempting to delete a comment
 function DeleteCommentModal({commentId, isActive, changeModalActive}) {
+
+	// When the modal is active, add overflow: hidden to body to prevent scrolling underneath
+	useEffect(() => {
+		if (isActive) {
+			document.body.style.overflow = "hidden"
+			// Add padding to compensate missing scrollbar
+			document.body.style.paddingRight = "16px"
+		} else {
+			document.body.style.overflow = null
+			document.body.style.paddingRight = null
+		}
+
+		// Cleanup
+		return () => {
+			document.body.style.overflow = null
+			document.body.style.paddingRight = null
+		}
+	}, [isActive])
 
 	const dispatch = useDispatch()
 
