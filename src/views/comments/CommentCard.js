@@ -65,7 +65,7 @@ function CommentCard({commentId, parentId}) {
 					<span className="comment-when">{comment.createdAt}</span>
 				</div>
 
-				<CommentActions userId={comment.user} handleAction={onActionButtonClick} 
+				<CommentActions commentId={commentId} userId={comment.user} handleAction={onActionButtonClick} 
 												replyFormActive={replyFormActive} editFormActive={editFormActive}/>
 
 				<EditableCommentContent commentId={commentId} isActive={editFormActive}
