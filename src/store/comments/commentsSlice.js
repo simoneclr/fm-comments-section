@@ -152,6 +152,35 @@ const commentsSlice = createSlice({
 					}
 				}
 			}
+		},
+
+		commentDeleted: {
+			reducer: (state, action) => {
+				const {commentId} = action.payload
+
+				const comment = state.entities[commentId]
+
+				// If the comment being deleted is a reply, remove it from the replies array of its parent
+				const parentComment = state.entities[comment.repliesTo]
+
+				if (parentComment) {
+					parentComment.replies = parentComment.replies.filter(replyId => replyId !== commentId)
+				}
+
+				// Remove all replies to the comment being removed
+				// TODO: Handle this more graciously
+				commentsAdapter.removeMany(state, comment.replies)
+
+				// Remove the comment
+				commentsAdapter.removeOne(state, commentId)
+			},
+			prepare: (commentId) => {
+				return {
+					payload: {
+						commentId
+					}
+				}
+			}
 		}
 	}
 })
@@ -162,7 +191,7 @@ export default commentsSlice.reducer
 const {commentUpvoted, commentDownvoted, commentAdded} = commentsSlice.actions
 
 // Exported actions
-export const {commentEdited} = commentsSlice.actions
+export const {commentEdited, commentDeleted} = commentsSlice.actions
 
 export const {
 	selectIds: selectCommentIds,

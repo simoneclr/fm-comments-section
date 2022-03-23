@@ -8,6 +8,7 @@ import CommentScoreControl from "./CommentScoreControl";
 import CommentAuthor from "../users/CommentAuthor.js"
 import CommentActions from "./CommentActions";
 import EditableCommentContent from "./EditableCommentContent";
+import DeleteCommentModal from "./DeleteCommentModal";
 
 // Displays a single comment card
 function CommentCard({commentId}) {
@@ -17,6 +18,9 @@ function CommentCard({commentId}) {
 
 	// State variable that controls access to the edit form
 	const [editFormActive, setEditFormActive] = useState(false)
+
+	// Controls the deletion confirmation modal
+	const [deleteModalActive, setDeleteModalActive] = useState(false)
 
 	// Select the comment to display
 	const comment = useSelector(state => selectCommentById(state, commentId))
@@ -30,7 +34,7 @@ function CommentCard({commentId}) {
 			case "edit": setEditFormActive(isActive => !isActive);
 				break;
 			
-			case "delete": ;
+			case "delete": setDeleteModalActive(isActive => !isActive);
 				break;
 				
 			default: break;
@@ -46,7 +50,7 @@ function CommentCard({commentId}) {
 			case "edit": setEditFormActive(isActive);
 				break;
 			
-			case "delete": ;
+			case "delete": setDeleteModalActive(isActive);
 				break;
 
 			default: break;
@@ -70,6 +74,9 @@ function CommentCard({commentId}) {
 
 				<EditableCommentContent commentId={commentId} isActive={editFormActive}
 																changeFormActive={changeFormsActive}/>
+
+				<DeleteCommentModal commentId={commentId} isActive={deleteModalActive}
+														changeModalActive={changeFormsActive}/>
 			</article>
 
 			<AddCommentForm parentId={commentId} isActive={replyFormActive}

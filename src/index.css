@@ -27,6 +27,7 @@
 }
 
 body {
+	position: relative;
 	font-family: "Rubik", sans-serif;
 	color: var(--grayish-blue);
 	font-size: 16px;
@@ -77,6 +78,22 @@ body {
 	cursor: initial;
 	background-color: var(--grayish-blue);
 	opacity: .7;
+}
+
+.btn-info {
+	background-color: var(--grayish-blue);
+}
+
+.btn-info:focus {
+	outline-color: var(--dark-blue);
+}
+
+.btn-danger {
+	background-color: var(--soft-red);
+}
+
+.btn-danger:focus {
+	outline-color: var(--soft-red);
 }
 
 /* COMMENTS */
@@ -267,4 +284,52 @@ body {
 .add-comment-form > .comment-content-input {
 	flex-grow: 1;
 	
+}
+
+/* DeleteCommentModal */
+.modal-container {
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 10;
+
+	background-color: rgba(0, 0, 0, .7);
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal-content {
+	max-width: 360px;
+
+	padding: 2rem;
+	background-color: var(--white);
+	border-radius: .5rem;
+
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.modal-content > h2, .modal-content > p {
+	width: 100%;
+	margin: 0;
+}
+
+.modal-content > h2 {
+	color: var(--dark-blue);
+	font-size: 1.2em;
+}
+
+.modal-content > p {
+	line-height: 1.5em;
+}
+
+.modal-content > button {
+	font-size: 1em;
+	padding: 1rem;
 }
