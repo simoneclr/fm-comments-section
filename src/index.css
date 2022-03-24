@@ -36,6 +36,14 @@ body {
 	background-color: var(--very-light-gray);
 }
 
+/* body class to adapt for modal */
+body.modal-open {
+	/* Prevent scrolling underneath modal */
+	overflow: hidden;
+	/* Compensate for missing scroll-bar to the right */
+	padding-right: 16px;
+}
+
 .app {
 	min-height: 100vh;
 	

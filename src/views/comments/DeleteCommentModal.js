@@ -6,21 +6,17 @@ import { commentDeleted } from "../../store/comments/commentsSlice";
 // Displays a modal asking for confirmation when attempting to delete a comment
 function DeleteCommentModal({commentId, isActive, changeModalActive}) {
 
-	// When the modal is active, add overflow: hidden to body to prevent scrolling underneath
+	// When the modal is active, add modal-open class to body
 	useEffect(() => {
 		if (isActive) {
-			document.body.style.overflow = "hidden"
-			// Add padding to compensate missing scrollbar
-			document.body.style.paddingRight = "16px"
+			document.body.classList.add("modal-open")
 		} else {
-			document.body.style.overflow = null
-			document.body.style.paddingRight = null
+			document.body.classList.remove("modal-open")
 		}
 
 		// Cleanup
 		return () => {
-			document.body.style.overflow = null
-			document.body.style.paddingRight = null
+			document.body.classList.remove("modal-open")
 		}
 	}, [isActive])
 
