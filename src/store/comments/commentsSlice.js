@@ -205,5 +205,27 @@ export const selectRootCommentsIds = createSelector(
 	comments => comments.filter(c => c.repliesTo === -1).map(c => c.id)
 )
 
+// Recursively travels the comment tree,starting from one comment and building 
+// a nested array of ids representing its replies structure 
+const recursiveTreeBuilder = (comments, id) => {
+
+	if (comments[id].replies.length === 0) {
+		return [id]
+	} else {
+		return [id, comments[id].replies.map(rid => 
+			recursiveTreeBuilder(comments, rid)
+		)]
+	}
+}
+
+// Select a nesetd array of ids representing all the comments descendants of the specified root comment
+// Root comment's id is not included in the resulting array
+export const selectCommentTreeFromRootId = createSelector(
+	[(state, rootId) => state.comments.entities, (state, rootId) => rootId],
+	(comments, rootId) => comments[rootId].replies.map(replyId => 
+		recursiveTreeBuilder(comments, replyId)	
+	)
+)
+
 // Select score of a given comment
 export const selectCommentScoreById = (state, commentId) => state.comments.entities[commentId].score
