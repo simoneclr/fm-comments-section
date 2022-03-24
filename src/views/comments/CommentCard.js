@@ -25,7 +25,7 @@ function CommentCard({commentId}) {
 	// Select the comment to display
 	const comment = useSelector(state => selectCommentById(state, commentId))
 
-	// Handles action buttons clicks
+	// Toggles the respective state variable when an action button is clicked
 	const onActionButtonClick = (e) => {
 		switch(e.currentTarget.name) {
 			case "reply": setReplyFormActive(isActive => !isActive); 
@@ -37,22 +37,6 @@ function CommentCard({commentId}) {
 			case "delete": setDeleteModalActive(isActive => !isActive);
 				break;
 				
-			default: break;
-		}
-	}
-
-	// Allow nested components to change display status of their respective forms
-	const changeFormsActive = (name, isActive) => {
-		switch(name) {
-			case "reply": setReplyFormActive(isActive); 
-				break;
-
-			case "edit": setEditFormActive(isActive);
-				break;
-			
-			case "delete": setDeleteModalActive(isActive);
-				break;
-
 			default: break;
 		}
 	}
@@ -73,14 +57,14 @@ function CommentCard({commentId}) {
 												replyFormActive={replyFormActive} editFormActive={editFormActive}/>
 
 				<EditableCommentContent commentId={commentId} isActive={editFormActive}
-																changeFormActive={changeFormsActive}/>
+																changeFormActive={setEditFormActive}/>
 
 				<DeleteCommentModal commentId={commentId} isActive={deleteModalActive}
-														changeModalActive={changeFormsActive}/>
+														changeModalActive={setDeleteModalActive}/>
 			</article>
 
 			<AddCommentForm parentId={commentId} isActive={replyFormActive}
-											changeFormActive={changeFormsActive}/>
+											changeFormActive={setReplyFormActive}/>
 			
 		</React.Fragment>
 	)

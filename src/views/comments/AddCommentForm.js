@@ -47,7 +47,7 @@ function AddCommentForm({parentId, isActive, changeFormActive}) {
 			setContent("")
 		}
 
-		changeFormActive("reply", false)
+		changeFormActive(false)
 	}
 
 	return (

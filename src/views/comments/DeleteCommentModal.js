@@ -32,13 +32,13 @@ function DeleteCommentModal({commentId, isActive, changeModalActive}) {
 			case MODAL_ID: 
 			case BTN_CANCEL_ID:
 				// If click outside the modal or click the cancel button, simply close the modal
-				changeModalActive("delete", false);
+				changeModalActive(false);
 				break;
 			
 			case BTN_CONFIRM_ID:
 				// If click on confirm button, dispatch delete action and then close the modal
 				dispatch(commentDeleted(commentId))
-				changeModalActive("delete", false)
+				changeModalActive(false)
 				break;
 
 			default: break;

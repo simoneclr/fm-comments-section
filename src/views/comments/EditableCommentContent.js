@@ -45,7 +45,7 @@ function EditableCommentContent({commentId, isActive, changeFormActive}) {
 		}
 
 		// Close the edit form
-		changeFormActive("edit", false)
+		changeFormActive(false)
 	}
 
 	return (
