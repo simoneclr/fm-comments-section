@@ -20,7 +20,7 @@ function CommentsThread({commentId}) {
 
 				<ul className="comments-thread replies-thread">
 					{comment.replies.map(replyId =>
-						<CommentsThread key={replyId} commentId={replyId} parentId={commentId}/>
+						<CommentsThread key={replyId} commentId={replyId}/>
 					)}
 				</ul>
 
