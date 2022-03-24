@@ -272,6 +272,7 @@ body.modal-open {
 }
 
 .comment-content-input:focus {
+	color: var(--dark-blue);
 	outline: 1px solid var(--moderate-blue);
 }
 
