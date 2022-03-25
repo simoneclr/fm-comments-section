@@ -21,10 +21,12 @@
 		;
 
 		grid-template-columns: min-content auto;
+		gap: 1rem;
 	}
 
 	/* CommentScore */
 	.comment-score {
+		align-self: center;
 		font-size: 1.2em;
 		padding: .7rem;
 
@@ -48,6 +50,7 @@
 	.add-comment-form {
 		flex-wrap: wrap;
 		justify-content: space-between;
+		align-items: center;
 	}
 
 	.add-comment-form > .comment-content-input {
@@ -63,4 +66,75 @@
 		order: 3;
 	}
 
+}
+
+@media screen and (max-width: 576px) {
+
+	.modal-content {
+		padding: 1rem;
+	}
+
+	.replies-thread {
+		padding-left: 1rem;
+	}
+
+	.comment-content-input {
+		padding: .5rem;
+	}
+	
+	/* CommentCard */
+	.comment-card {
+		padding: 1rem;
+	}
+
+	.comment-picture {
+		height: 2rem;
+	}
+
+	.comment-card-grid {
+		gap: 1rem .5rem;
+	}
+
+	.comment-header {
+		flex-wrap: wrap;
+	}
+
+	/* CommentAuthor */
+	.comment-author {
+		gap: .5rem;
+	}
+
+	.comment-username {
+		font-size: 1em;
+	}
+
+	.logged-in-tag {
+		font-size: .9em;
+		padding: 0 .4rem .2rem .4rem;
+	}
+
+	/* CommentScore */
+	.comment-score {
+		font-size: 1em;
+		padding: .5rem;
+		gap: .7rem;
+	}
+
+	.btn-score {
+		height: 1rem;
+	}
+
+	.btn-score > img {
+		width: 1rem;
+	}
+
+	/* CommentActions */
+	.comment-actions {
+		flex-wrap: wrap;
+		gap: .5rem;
+	}
+
+	.btn-action {
+		font-size: 1em;
+	}
 }
