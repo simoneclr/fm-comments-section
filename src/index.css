@@ -123,6 +123,10 @@ body.modal-open {
 	gap: 2rem;
 }
 
+.root-thread {
+	margin-bottom: 2rem;
+}
+
 .replies-thread {
 	padding-left: 2.745rem;
 	margin: 2rem 0 0 2.745rem;
