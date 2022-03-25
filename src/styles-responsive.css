@@ -1,0 +1,66 @@
+@media screen and (max-width: 768px) {
+	body.modal-open {
+		padding: 0;
+	}
+
+	.comments-dashboard {
+		max-width: unset;
+	}
+
+	.replies-thread {
+		margin-left: 0;
+		padding-left: 1.4rem;
+	}
+
+	/* CommentCard */
+	.comment-card-grid {
+		grid-template-areas:
+			"header header"
+			"content content"
+			"score actions"
+		;
+
+		grid-template-columns: min-content auto;
+	}
+
+	/* CommentScore */
+	.comment-score {
+		font-size: 1.2em;
+		padding: .7rem;
+
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.btn-score {
+		box-sizing: content-box;
+		height: 1.2rem;
+		margin: 0;
+	}
+
+	.btn-score > img {
+		width: 1.2rem;
+	}
+
+	/* Add comment form */
+	.add-comment-form {
+		flex-wrap: wrap;
+		justify-content: space-between;
+	}
+
+	.add-comment-form > .comment-content-input {
+		order: 1;
+		width: 100%;
+	}
+
+	.add-comment-form > .comment-picture {
+		order: 2;
+	}
+
+	.add-comment-form > button {
+		order: 3;
+	}
+
+}
