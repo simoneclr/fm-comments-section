@@ -107,7 +107,8 @@ body.modal-open {
 /* COMMENTS */
 
 .comments-dashboard {
-	width: 60%;
+	width: 90%;
+	max-width: 720px;
 	padding: 1rem 0;
 	margin: 0 auto;
 }
@@ -123,14 +124,14 @@ body.modal-open {
 }
 
 .replies-thread {
-	padding-left: 2rem;
-	margin: 2rem 0 0 2rem;
+	padding-left: 2.745rem;
+	margin: 2rem 0 0 2.745rem;
 	border-left: .1rem solid var(--light-gray);
 }
 
 /* CommentCard */
 .comment-card {
-	padding: 2rem;
+	padding: 1.5rem;
 	background-color: var(--white);
 	border-radius: .5rem;
 	box-shadow: 0 .5rem 2rem -1.5rem var(--light-grayish-blue);

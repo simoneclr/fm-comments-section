@@ -29,7 +29,7 @@ const preloadedState = {
 					voters: {}
 				},
 				"repliesTo": -1,
-				"replies": [3, 4]
+				"replies": [3]
 			},
 			"3": {
 				"id": 3,
@@ -41,18 +41,18 @@ const preloadedState = {
 					voters: {}
 				},
 				"repliesTo": 2,
-				"replies": []
+				"replies": [4]
 			},
 			"4": {
 				"id": 4,
 				"user": "juliusomo",
-				"content": "I couldn't agree more with this. Everything moves so fast and it always seems like everyone knows the newest library/framework. But the fundamentals are what stay constant.",
+				"content": "I couldn't agree more with this. Everything moves so fast and it always seems like everyone knows the newest library / framework. But the fundamentals are what stay constant.",
 				"createdAt": "2 days ago",
 				"score": {
 					value: 2,
 					voters: {}
 				},
-				"repliesTo": 2,
+				"repliesTo": 3,
 				"replies": []
 			}
 		},

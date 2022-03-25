@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import store from './store/store';
 
 import './index.css';
+import "./styles-responsive.css"
 
 import App from './App';
 
