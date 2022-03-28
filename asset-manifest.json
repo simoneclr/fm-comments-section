@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/fm-comments-section/static/css/main.e4da4288.css",
+    "main.js": "/fm-comments-section/static/js/main.31c37d60.js",
+    "index.html": "/fm-comments-section/index.html",
+    "main.e4da4288.css.map": "/fm-comments-section/static/css/main.e4da4288.css.map",
+    "main.31c37d60.js.map": "/fm-comments-section/static/js/main.31c37d60.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e4da4288.css",
+    "static/js/main.31c37d60.js"
+  ]
+}
