@@ -47,6 +47,9 @@ body.modal-open {
 .app {
 	min-height: 100vh;
 	
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 /* SHARED */
@@ -107,6 +110,7 @@ body.modal-open {
 /* COMMENTS */
 
 .comments-dashboard {
+	flex-grow: 1;
 	width: 90%;
 	max-width: 720px;
 	padding: 1rem 0;
@@ -347,4 +351,26 @@ body.modal-open {
 .modal-content > button {
 	font-size: 1em;
 	padding: 1rem;
+}
+
+/* Footer */
+footer {
+	width: 100%;
+	background-color: var(--white);
+	text-align: center;
+	padding: 1rem;
+	margin-top: 2rem;
+}
+
+footer a {
+	text-decoration: none;
+	color: var(--moderate-blue);
+}
+
+footer a:hover {
+	text-decoration: underline;
+}
+
+footer a:active {
+	color: var(--dark-blue);
 }
