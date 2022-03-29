@@ -211,5 +211,18 @@ export const selectRootCommentsIds = createSelector(
 	).map(c => c.id)
 )
 
+// Select ids of replies to a specified commentId, and sort them oldest to newest
+export const selectSortedRepliesToId = createSelector(
+	[(state, commentId) => state.comments.entities, 
+		(state, commentId) => state.comments.entities[commentId].replies],
+	
+	(comments, replies) => replies.slice().sort((ida, idb) => {
+		let a = comments[ida]
+		let b = comments[idb]
+
+		return b.createdAt.localeCompare(a.createdAt)
+	})
+)
+
 // Select score of a given comment
 export const selectCommentScoreById = (state, commentId) => state.comments.entities[commentId].score
