@@ -133,8 +133,17 @@ body.modal-open {
 
 .replies-thread {
 	padding-left: 2.745rem;
-	margin: 2rem 0 0 2.745rem;
+	margin-left: 2.745rem;
+	margin-top: 2rem;
 	border-left: .1rem solid var(--light-gray);
+}
+
+/* Replies to root comments are always indented; 
+remove indentation from replies that have other replies as ancestors */
+.replies-flat .replies-flat {
+	padding-left: 0;
+	margin-left: 0;
+	border-left: 0;
 }
 
 /* CommentCard */
