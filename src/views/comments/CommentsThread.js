@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { selectCommentById, selectSortedRepliesToId } from "../../store/comments/commentsSlice";
+import { selectSortedRepliesToId } from "../../store/comments/commentsSlice";
 
 import CommentCard from "./CommentCard";
 
