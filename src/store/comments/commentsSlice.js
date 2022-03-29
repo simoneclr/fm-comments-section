@@ -220,7 +220,7 @@ export const selectSortedRepliesToId = createSelector(
 		let a = comments[ida]
 		let b = comments[idb]
 
-		return b.createdAt.localeCompare(a.createdAt)
+		return a.createdAt.localeCompare(b.createdAt)
 	})
 )
 
