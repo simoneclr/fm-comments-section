@@ -9,6 +9,7 @@ import CommentAuthor from "../users/CommentAuthor.js"
 import CommentActions from "./CommentActions";
 import EditableCommentContent from "./EditableCommentContent";
 import DeleteCommentModal from "./DeleteCommentModal";
+import CommentTimeAgo from "./CommentTimeAgo";
 
 // Displays a single comment card
 function CommentCard({commentId}) {
@@ -50,7 +51,7 @@ function CommentCard({commentId}) {
 				<div className="comment-header">
 					<CommentAuthor userId={comment.user} />
 
-					<span className="comment-when">{comment.createdAt}</span>
+					<CommentTimeAgo timestamp={comment.createdAt}/>
 				</div>
 
 				<CommentActions commentId={commentId} userId={comment.user} handleAction={onActionButtonClick} 

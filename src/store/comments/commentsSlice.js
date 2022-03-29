@@ -109,7 +109,7 @@ const commentsSlice = createSlice({
 					"id": state.latestId,
 					"user": userId,
 					"content": content,
-					"createdAt": "Just now",
+					"createdAt": new Date().toISOString(),
 					"score": {
 						value: 0,
 						voters: {}
