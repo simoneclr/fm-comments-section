@@ -1,6 +1,10 @@
 import { createEntityAdapter, createSelector, createSlice } from "@reduxjs/toolkit";
 
-const commentsAdapter = createEntityAdapter()
+const commentsAdapter = createEntityAdapter({
+	// Sort comments by score (highest first)
+	// NOTE: Only works when state is changed by CRUD functions provided by entity adapter
+	sortComparer: (a, b) => a.score.value - b.score.value
+})
 
 // Thunk function that reads the logged user from global state before upvoting the specified comment
 export const upvoteComment = (commentId) => (dispatch, getState) => {
@@ -199,10 +203,12 @@ export const {
 	selectById: selectCommentById
 } = commentsAdapter.getSelectors(state => state.comments)
 
-// Select ids of root comments
+// Select ids of root comments, sorted by score (descending)
 export const selectRootCommentsIds = createSelector(
 	[selectAllComments],
-	comments => comments.filter(c => c.repliesTo === -1).map(c => c.id)
+	comments => comments.filter(c => c.repliesTo === -1).sort((a, b) =>
+		b.score.value - a.score.value
+	).map(c => c.id)
 )
 
 // Recursively travels the comment tree,starting from one comment and building 
