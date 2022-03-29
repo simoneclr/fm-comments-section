@@ -1,14 +1,15 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { selectCommentById } from "../../store/comments/commentsSlice";
+import { selectCommentById, selectSortedRepliesToId } from "../../store/comments/commentsSlice";
 
 import CommentCard from "./CommentCard";
 
 // Displays a comments thread
-function CommentsThread({commentId}) {
-	// Select the root comment for this thread
-	const comment = useSelector(state => selectCommentById(state, commentId))
+function CommentsThread({commentId, className}) {
+	
+	// Select sorted replies to commentId
+	const replies = useSelector(state => selectSortedRepliesToId(state, commentId))
 
 	return (
 		<li>
@@ -16,11 +17,11 @@ function CommentsThread({commentId}) {
 			<CommentCard commentId={commentId}/>
 
 			{	/* If the root comment has any replies, display a new thread for each of them */
-				comment.replies.length > 0 ?
+				replies.length > 0 ?
 
-				<ul className="comments-thread replies-thread">
-					{comment.replies.map(replyId =>
-						<CommentsThread key={replyId} commentId={replyId}/>
+				<ul className={"comments-thread replies-thread " + className}>
+					{replies.map(replyId =>
+						<CommentsThread key={replyId} className={className} commentId={replyId}/>
 					)}
 				</ul>
 
