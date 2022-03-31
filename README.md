@@ -37,8 +37,13 @@ Your users should be able to:
 - CSS
 	- Responsive layout built with Grid and Flexbox
 - [React](https://reactjs.org/) - Frontend Framework
-- [Create React App](https://create-react-app.dev/) - Initial Setup
+- [Create React App](https://create-react-app.dev/) - Initial Setup (using redux template)
 - [Redux](https://redux.js.org/) - State Management Library
 - [Redux Toolkit](https://redux-toolkit.js.org/)
 - [React Redux](https://react-redux.js.org/) - Official React bindings for Redux
+- [date-fns](https://date-fns.org/) - Date utilities library
 - [gh-pages](https://github.com/gitname/react-gh-pages) - Deploy Live Demo to gh-pages
+
+## Useful Resources
+
+- [Redux Essentials](https://redux.js.org/tutorials/essentials/part-1-overview-concepts)
