@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { downvoteComment, selectCommentScoreById, upvoteComment } from "../../store/comments/commentsSlice";
 import { selectLoggedUser } from "../../store/users/usersSlice";
 
+import PATHS from "../../utils/paths";
+
 // Displays a comment's score and allows the logged user to change their vote
 function CommentScoreControl({commentId}) {
 
@@ -28,7 +30,7 @@ function CommentScoreControl({commentId}) {
 		<div className="comment-score">
 			<button name="UPVOTE" onClick={onButtonClicked} 
 							className={"btn btn-score" + (userVote === 1 ? " user-vote" : "")}>
-				<img src="./images/icon-plus.svg" alt="+"/>
+				<img src={PATHS.iconPlus} alt="+"/>
 			</button>
 
 			<div>
@@ -37,7 +39,7 @@ function CommentScoreControl({commentId}) {
 
 			<button name="DOWNVOTE" onClick={onButtonClicked}
 							className={"btn btn-score" + (userVote === -1 ? " user-vote" : "")}>
-				<img src="./images/icon-minus.svg" alt="-"/>
+				<img src={PATHS.iconMinus} alt="-"/>
 			</button>
 		</div>
 	)

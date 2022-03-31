@@ -64,29 +64,29 @@ const preloadedState = {
 		entities: {
 			"amyrobson": {
 				"image": { 
-					"png": "./images/avatars/image-amyrobson.png",
-					"webp": "./images/avatars/image-amyrobson.webp"
+					"png": "fm-comments-section/images/avatars/image-amyrobson.png",
+					"webp": "fm-comments-section/images/avatars/image-amyrobson.webp"
 				},
 				"username": "amyrobson"
 			},
 			"maxblagun": {
 				"image": { 
-					"png": "./images/avatars/image-maxblagun.png",
-					"webp": "./images/avatars/image-maxblagun.webp"
+					"png": "fm-comments-section/images/avatars/image-maxblagun.png",
+					"webp": "fm-comments-section/images/avatars/image-maxblagun.webp"
 				},
 				"username": "maxblagun"
 			},
 			"ramsesmiron": {
 				"image": { 
-					"png": "./images/avatars/image-ramsesmiron.png",
-					"webp": "./images/avatars/image-ramsesmiron.webp"
+					"png": "fm-comments-section/images/avatars/image-ramsesmiron.png",
+					"webp": "fm-comments-section/images/avatars/image-ramsesmiron.webp"
 				},
 				"username": "ramsesmiron"
 			},
 			"juliusomo": {
 				"image": { 
-					"png": "./images/avatars/image-juliusomo.png",
-					"webp": "./images/avatars/image-juliusomo.webp"
+					"png": "fm-comments-section/images/avatars/image-juliusomo.png",
+					"webp": "fm-comments-section/images/avatars/image-juliusomo.webp"
 				},
 				"username": "juliusomo"
 			},

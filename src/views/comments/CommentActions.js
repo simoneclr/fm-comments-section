@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 
 import { selectLoggedUser } from "../../store/users/usersSlice";
 
+import PATHS from "../../utils/paths";
+
 // Display an action button
 const ActionButton = ({name, isActive, handleClick}) => {
 	// Holds information about each possible action
@@ -10,17 +12,17 @@ const ActionButton = ({name, isActive, handleClick}) => {
 		reply: {
 			displayName: "Reply",
 			className: "btn-reply",
-			icon: "./images/icon-reply.svg"
+			icon: PATHS.iconReply
 		},
 		edit: {
 			displayName: "Edit",
 			className: "btn-edit",
-			icon: "./images/icon-edit.svg"
+			icon: PATHS.iconEdit
 		},
 		delete: {
 			displayName: "Delete",
 			className: "btn-delete",
-			icon: "./images/icon-delete.svg"
+			icon: PATHS.iconDelete
 		}
 	}
 
