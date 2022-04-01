@@ -110,6 +110,10 @@ const storageKeys = {
 	}
 }
 
+// Used to generate new comment ids
+// TODO use proper id generation 
+let latestCommentId = 0
+
 // Check if the storage already contains data, and if it doesn't, insert mock data
 const initStorage = () => {
 	// Dev only
@@ -141,6 +145,13 @@ const initStorage = () => {
 			// Insert list of comment ids in the storage
 			STORAGE.setItem(storageKeys.comments.ids, JSON.stringify(commentsIds))
 		}
+
+		// Update latestCommentId
+		getCommentIds().forEach(id => {
+			if (id > latestCommentId) {
+				latestCommentId = id
+			}
+		})
 
 		// Check if storage already contains users data
 		if (!STORAGE.getItem(storageKeys.users.ids)) {
@@ -187,6 +198,59 @@ const getCommentById = (commentId) => {
 	return JSON.parse(STORAGE.getItem(storageKeys.comments.commentId(commentId)))
 }
 
+// Add a new comment to localStorage
+const addNewComment = (userId, content, parentId) => {
+	// Increase latestCommentId
+	latestCommentId++
+
+	let repliesTo = parentId
+
+	// If no parent id has been provided, set parentId to -1 to show the new comment is a root comment
+	if (!parentId) {
+		repliesTo = -1
+	} else {
+		// Otherwise, update parent's list of replies
+		const parentComment = getCommentById(parentId)
+		parentComment.replies.push(latestCommentId)
+		updateComment(parentComment)
+	}
+
+	// Create new comment
+	const newComment = {
+		"id": latestCommentId,
+		"user": userId,
+		"content": content,
+		"createdAt": new Date().toISOString(),
+		"score": {
+		value: 0,
+			voters: {}
+		},
+		"repliesTo": repliesTo,
+		"replies": []
+	}
+
+	// Convert comment to JSON
+	const storedValue = JSON.stringify(newComment)
+
+	// Set comment in localStorage
+	STORAGE.setItem(storageKeys.comments.commentId(newComment.id), storedValue)
+
+	// Update list of comment ids
+	const commentIds = getCommentIds()
+	commentIds.push(newComment.id)
+
+	STORAGE.setItem(storageKeys.comments.ids, JSON.stringify(commentIds))
+
+	// Return the newly created comment
+	return newComment
+}
+
+// Update an existing comment in localStorage
+const updateComment = (updatedComment) => {
+	const storedValue = JSON.stringify(updatedComment)
+	STORAGE.setItem(storageKeys.comments.commentId(updatedComment.id), storedValue)
+}
+
 // Retrieve ids of all users
 const getUserIds = () => {
 	return JSON.parse(STORAGE.getItem(storageKeys.users.ids))
@@ -214,6 +278,6 @@ const getLoggedUserId = () => {
 }
 
 export { initStorage, 
-	getCommentIds, getAllComments, getCommentById, 
+	getCommentIds, getAllComments, getCommentById, addNewComment,
 	getUserIds, getAllUsers, getUserById, getLoggedUserId
 }

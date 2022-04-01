@@ -1,6 +1,6 @@
 import { createEntityAdapter, createSelector, createSlice } from "@reduxjs/toolkit";
 
-import { getAllComments } from "../../utils/localStorage";
+import { addNewComment, getAllComments } from "../../utils/localStorage";
 
 const commentsAdapter = createEntityAdapter({
 	// Sort comments by score (highest first)
@@ -35,26 +35,23 @@ export const downvoteComment = (commentId) => (dispatch, getState) => {
 
 // Thunk function that reads the logged user from global state before adding a new comment
 export const addComment = (content, parentId) => (dispatch, getState) => {
+	// Read logged user's username
 	const loggedUser = getState().users.loggedIn
 
-	dispatch(commentAdded(loggedUser, content, parentId))
+	// Add to comment to localStorage
+	const newComment = addNewComment(loggedUser, content, parentId)
+
+	// Update state with the new comment
+	dispatch(commentAdded(newComment))
 }
 
 const commentsSlice = createSlice({
 	name: "comments",
-	initialState: commentsAdapter.getInitialState({
-		latestId: -1
-	}),
+	initialState: commentsAdapter.getInitialState(),
 	reducers: {
 		commentLoaded: {
 			reducer: (state, action) => {
 				const {comment} = action.payload
-
-				// Check if the comment's id is greater than current latestId
-				if (comment.id > state.latestId) {
-					// If yes, update it
-					state.latestId = comment.id
-				}
 
 				commentsAdapter.addOne(state, comment)
 			},
@@ -125,32 +122,9 @@ const commentsSlice = createSlice({
 
 		commentAdded: {
 			reducer: (state, action) => {
-				const {userId, content, parentId} = action.payload
+				const {newComment} = action.payload
 
-				// Increase latest id
-				// TODO: add proper id generation
-				state.latestId++
-
-				let repliesTo = parentId
-
-				// If no parent id has been provided, set parentId to -1 to show the new comment is a root comment
-				if (!parentId) {
-					repliesTo = -1
-				}
-
-				// Create new comment
-				const newComment = {
-					"id": state.latestId,
-					"user": userId,
-					"content": content,
-					"createdAt": new Date().toISOString(),
-					"score": {
-						value: 0,
-						voters: {}
-					},
-					"repliesTo": repliesTo,
-					"replies": []
-				}
+				let parentId = newComment.repliesTo
 
 				// Check if the new comment is replying to someone
 				if (state.entities.hasOwnProperty(parentId)) {
@@ -161,12 +135,10 @@ const commentsSlice = createSlice({
 				// Add new comment using the adapter function
 				commentsAdapter.addOne(state, newComment)
 			},
-			prepare: (userId, content, parentId) => {
+			prepare: (newComment) => {
 				return {
 					payload: {
-						userId,
-						content,
-						parentId
+						newComment
 					}
 				}
 			}
