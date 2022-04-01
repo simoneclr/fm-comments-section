@@ -1,10 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { sub } from 'date-fns';
 
 import commentsSlice from './comments/commentsSlice';
 import usersSlice from './users/usersSlice';
 
-const preloadedState = {
+// const preloadedState = {
 	// comments: {
 	// 	ids: [1, 2, 3, 4],
 	// 	entities: {
@@ -59,46 +58,45 @@ const preloadedState = {
 	// 	},
 	// 	latestId: 4
 	// },
-	users: {
-		ids: ["amyrobson", "maxblagun", "ramsesmiron", "juliusomo"],
-		entities: {
-			"amyrobson": {
-				"image": { 
-					"png": "fm-comments-section/images/avatars/image-amyrobson.png",
-					"webp": "fm-comments-section/images/avatars/image-amyrobson.webp"
-				},
-				"username": "amyrobson"
-			},
-			"maxblagun": {
-				"image": { 
-					"png": "fm-comments-section/images/avatars/image-maxblagun.png",
-					"webp": "fm-comments-section/images/avatars/image-maxblagun.webp"
-				},
-				"username": "maxblagun"
-			},
-			"ramsesmiron": {
-				"image": { 
-					"png": "fm-comments-section/images/avatars/image-ramsesmiron.png",
-					"webp": "fm-comments-section/images/avatars/image-ramsesmiron.webp"
-				},
-				"username": "ramsesmiron"
-			},
-			"juliusomo": {
-				"image": { 
-					"png": "fm-comments-section/images/avatars/image-juliusomo.png",
-					"webp": "fm-comments-section/images/avatars/image-juliusomo.webp"
-				},
-				"username": "juliusomo"
-			},
-		},
-		loggedIn: "juliusomo"
-	}
-}
+	// users: {
+	// 	ids: ["amyrobson", "maxblagun", "ramsesmiron", "juliusomo"],
+	// 	entities: {
+	// 		"amyrobson": {
+	// 			"image": { 
+	// 				"png": "fm-comments-section/images/avatars/image-amyrobson.png",
+	// 				"webp": "fm-comments-section/images/avatars/image-amyrobson.webp"
+	// 			},
+	// 			"username": "amyrobson"
+	// 		},
+	// 		"maxblagun": {
+	// 			"image": { 
+	// 				"png": "fm-comments-section/images/avatars/image-maxblagun.png",
+	// 				"webp": "fm-comments-section/images/avatars/image-maxblagun.webp"
+	// 			},
+	// 			"username": "maxblagun"
+	// 		},
+	// 		"ramsesmiron": {
+	// 			"image": { 
+	// 				"png": "fm-comments-section/images/avatars/image-ramsesmiron.png",
+	// 				"webp": "fm-comments-section/images/avatars/image-ramsesmiron.webp"
+	// 			},
+	// 			"username": "ramsesmiron"
+	// 		},
+	// 		"juliusomo": {
+	// 			"image": { 
+	// 				"png": "fm-comments-section/images/avatars/image-juliusomo.png",
+	// 				"webp": "fm-comments-section/images/avatars/image-juliusomo.webp"
+	// 			},
+	// 			"username": "juliusomo"
+	// 		},
+	// 	},
+// 		loggedIn: "juliusomo"
+// 	}
+// }
 
 export default configureStore({
 	reducer: {
 		comments: commentsSlice,
 		users: usersSlice
-	},
-	preloadedState
+	}
 });

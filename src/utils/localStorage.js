@@ -102,6 +102,11 @@ const storageKeys = {
 	comments: {
 		ids: "commentsIds",
 		commentId: (id) => "commentsId" + id
+	},
+	users: {
+		ids: "usersIds",
+		loggedUser: "usersLoggedIn",
+		userId: (id) => "usersId" + id
 	}
 }
 
@@ -136,6 +141,32 @@ const initStorage = () => {
 			// Insert list of comment ids in the storage
 			STORAGE.setItem(storageKeys.comments.ids, JSON.stringify(commentsIds))
 		}
+
+		// Check if storage already contains users data
+		if (!STORAGE.getItem(storageKeys.users.ids)) {
+			// If not, load mock data
+
+			// List of all users id
+			const usersIds = []
+
+			// For each user, insert a new entry in the storage
+			preloadedUsers.ids.forEach(id => {
+				// Convert user object into JSON
+				const storedValue = JSON.stringify(preloadedUsers.entities[id])
+
+				// Push the id into usersIds list
+				usersIds.push(id)
+
+				// Insert user into storage
+				STORAGE.setItem(storageKeys.users.userId(id), storedValue)
+			})
+
+			// Insert list of user ids into the storage
+			STORAGE.setItem(storageKeys.users.ids, JSON.stringify(usersIds))
+
+			// Insert username of the logged in user into the store
+			STORAGE.setItem(storageKeys.users.loggedUser, preloadedUsers.loggedIn)
+		}
 	}
 }
 
@@ -156,4 +187,33 @@ const getCommentById = (commentId) => {
 	return JSON.parse(STORAGE.getItem(storageKeys.comments.commentId(commentId)))
 }
 
-export { initStorage, getCommentIds, getAllComments, getCommentById }
+// Retrieve ids of all users
+const getUserIds = () => {
+	return JSON.parse(STORAGE.getItem(storageKeys.users.ids))
+}
+
+// Retrieve users data from storage, parsed as an object
+const getAllUsers = () => {
+	const ids = getUserIds()
+
+	if (ids) {
+		return ids.map(id => JSON.parse(STORAGE.getItem(storageKeys.users.userId(id))))
+	} else {
+		return []
+	}
+}
+
+// Retrieve data of a specified user by its id
+const getUserById = (userId) => {
+	return JSON.parse(STORAGE.getItem(storageKeys.users.userId(userId)))
+}
+
+// Retrieve id of the logged in user
+const getLoggedUserId = () => {
+	return STORAGE.getItem(storageKeys.users.loggedUser)
+}
+
+export { initStorage, 
+	getCommentIds, getAllComments, getCommentById, 
+	getUserIds, getAllUsers, getUserById, getLoggedUserId
+}
