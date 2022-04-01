@@ -1,10 +1,23 @@
 import { createEntityAdapter, createSelector, createSlice } from "@reduxjs/toolkit";
 
+import { getAllComments } from "../../utils/localStorage";
+
 const commentsAdapter = createEntityAdapter({
 	// Sort comments by score (highest first)
 	// NOTE: Only works when state is changed by CRUD functions provided by entity adapter
 	sortComparer: (a, b) => a.score.value - b.score.value
 })
+
+// Thunk function that loads comment data from localStorage
+export const loadComments = () => (dispatch, getState) => {
+	// Retrieve comments from the localStorage
+	const comments = getAllComments()
+
+	if (comments) {
+		// Load each comment into the state
+		comments.forEach(comment => dispatch(commentLoaded(comment)))
+	}	
+}
 
 // Thunk function that reads the logged user from global state before upvoting the specified comment
 export const upvoteComment = (commentId) => (dispatch, getState) => {
@@ -30,9 +43,30 @@ export const addComment = (content, parentId) => (dispatch, getState) => {
 const commentsSlice = createSlice({
 	name: "comments",
 	initialState: commentsAdapter.getInitialState({
-		latestId: 0
+		latestId: -1
 	}),
 	reducers: {
+		commentLoaded: {
+			reducer: (state, action) => {
+				const {comment} = action.payload
+
+				// Check if the comment's id is greater than current latestId
+				if (comment.id > state.latestId) {
+					// If yes, update it
+					state.latestId = comment.id
+				}
+
+				commentsAdapter.addOne(state, comment)
+			},
+			prepare: (comment) => {
+				return {
+					payload: {
+						comment
+					}
+				}
+			}
+		},
+
 		commentUpvoted: {
 			reducer: (state, action) => {
 				const {commentId, userId} = action.payload
@@ -192,7 +226,7 @@ const commentsSlice = createSlice({
 export default commentsSlice.reducer
 
 // Actions that are not exported because they are accessed via thunks
-const {commentUpvoted, commentDownvoted, commentAdded} = commentsSlice.actions
+const {commentLoaded, commentUpvoted, commentDownvoted, commentAdded} = commentsSlice.actions
 
 // Exported actions
 export const {commentEdited, commentDeleted} = commentsSlice.actions
