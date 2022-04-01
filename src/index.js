@@ -11,7 +11,7 @@ import App from './App';
 
 import { loadComments } from './store/comments/commentsSlice';
 
-import { getUserById, initStorage } from './utils/localStorage';
+import { initStorage } from './utils/localStorage';
 import { loadUsers } from './store/users/usersSlice';
 
 // Initialize local storage
