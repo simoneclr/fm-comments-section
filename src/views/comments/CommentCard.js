@@ -10,6 +10,7 @@ import CommentActions from "./CommentActions";
 import EditableCommentContent from "./EditableCommentContent";
 import DeleteCommentModal from "./DeleteCommentModal";
 import CommentTimeAgo from "./CommentTimeAgo";
+import { selectLoggedUser } from "../../store/users/usersSlice";
 
 // Displays a single comment card
 function CommentCard({commentId}) {
@@ -25,6 +26,9 @@ function CommentCard({commentId}) {
 
 	// Select the comment to display
 	const comment = useSelector(state => selectCommentById(state, commentId))
+
+	// Select the logged user id
+	const loggedUserId = useSelector(selectLoggedUser)
 
 	// Toggles the respective state variable when an action button is clicked
 	const onActionButtonClick = (e) => {
@@ -64,8 +68,11 @@ function CommentCard({commentId}) {
 														changeModalActive={setDeleteModalActive}/>
 			</article>
 
-			<AddCommentForm parentId={commentId} isActive={replyFormActive}
+			{ /* If there a user is logged in, display a reply form */
+				loggedUserId &&
+				<AddCommentForm parentId={commentId} isActive={replyFormActive}
 											changeFormActive={setReplyFormActive}/>
+			}
 			
 		</React.Fragment>
 	)

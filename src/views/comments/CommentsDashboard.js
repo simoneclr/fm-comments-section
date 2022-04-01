@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import { selectRootCommentsIds } from "../../store/comments/commentsSlice";
+import { selectLoggedUser } from "../../store/users/usersSlice";
 
 import AddCommentForm from "./AddCommentForm";
 import CommentsThread from "./CommentsThread";
@@ -10,6 +11,9 @@ import CommentsThread from "./CommentsThread";
 function CommentsDashboard() {
 	// Select ids of all root comments
 	const rootCommentIds = useSelector(selectRootCommentsIds)
+
+	// Select logged user id
+	const loggedUserId = useSelector(selectLoggedUser)
 
 	return (
 		<section className="comments-dashboard">
@@ -20,7 +24,10 @@ function CommentsDashboard() {
 				)}
 			</ul>
 
-			<AddCommentForm isActive={true} changeFormActive={(name, isActive) => true} />
+			{ /* If a user is logged in, display a form to add a new comment */
+				loggedUserId &&
+				<AddCommentForm isActive={true} changeFormActive={(name, isActive) => true} />
+			}
 		</section>
 	)
 }

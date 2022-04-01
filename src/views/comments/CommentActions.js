@@ -47,6 +47,7 @@ function CommentActions({commentId, userId, handleAction, replyFormActive, editF
 
 	// If the logged-in user is also the author, display edit and delete action buttons,
 	// Else display a reply action button
+	// If no user is logged in, do not display any action
 	if (isAuthor) {
 		renderedButtons = [
 			// Delete button
@@ -56,7 +57,7 @@ function CommentActions({commentId, userId, handleAction, replyFormActive, editF
 			<ActionButton key={"comment-" + commentId + "-edit"} name={"edit"} 
 										isActive={editFormActive} handleClick={handleAction}/>
 		]
-	} else {
+	} else if (loggedIn) {
 		renderedButtons = [
 			// Reply button
 			<ActionButton key={"comment-" + commentId + "-reply"} name={"reply"} 
