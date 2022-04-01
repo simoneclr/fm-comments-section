@@ -19,16 +19,19 @@ function CommentScoreControl({commentId}) {
 
 	// Handle button click
 	const onButtonClicked = (e) => {
-		if (e.currentTarget.name === "UPVOTE") {
-			dispatch(upvoteComment(commentId))
-		} else if (e.currentTarget.name === "DOWNVOTE") {
-			dispatch(downvoteComment(commentId))
+		// Only allow to vote if a user is logged in
+		if (loggedUser) {
+			if (e.currentTarget.name === "UPVOTE") {
+				dispatch(upvoteComment(commentId))
+			} else if (e.currentTarget.name === "DOWNVOTE") {
+				dispatch(downvoteComment(commentId))
+			}
 		}
 	}
 
 	return (
 		<div className="comment-score">
-			<button name="UPVOTE" onClick={onButtonClicked} 
+			<button name="UPVOTE" onClick={onButtonClicked} disabled={!loggedUser}
 							className={"btn btn-score" + (userVote === 1 ? " user-vote" : "")}>
 				<img src={PATHS.iconPlus} alt="+"/>
 			</button>
@@ -37,7 +40,7 @@ function CommentScoreControl({commentId}) {
 				{score.value}
 			</div>
 
-			<button name="DOWNVOTE" onClick={onButtonClicked}
+			<button name="DOWNVOTE" onClick={onButtonClicked} disabled={!loggedUser}
 							className={"btn btn-score" + (userVote === -1 ? " user-vote" : "")}>
 				<img src={PATHS.iconMinus} alt="-"/>
 			</button>
