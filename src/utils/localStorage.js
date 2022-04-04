@@ -199,10 +199,13 @@ const getCommentById = (commentId) => {
 }
 
 // Add a new comment to localStorage
+// Return an object containing the new comment, 
+// as well as the parent comment with the updated replies array (if present)
 const addNewComment = (userId, content, parentId) => {
 	// Increase latestCommentId
 	latestCommentId++
 
+	let parentComment = undefined
 	let repliesTo = parentId
 
 	// If no parent id has been provided, set parentId to -1 to show the new comment is a root comment
@@ -210,7 +213,7 @@ const addNewComment = (userId, content, parentId) => {
 		repliesTo = -1
 	} else {
 		// Otherwise, update parent's list of replies
-		const parentComment = getCommentById(parentId)
+		parentComment = getCommentById(parentId)
 		parentComment.replies.push(latestCommentId)
 		updateComment(parentComment)
 	}
@@ -242,7 +245,7 @@ const addNewComment = (userId, content, parentId) => {
 	STORAGE.setItem(storageKeys.comments.ids, JSON.stringify(commentIds))
 
 	// Return the newly created comment
-	return newComment
+	return {newComment, parentComment}
 }
 
 // Update an existing comment in localStorage

@@ -39,10 +39,10 @@ export const addComment = (content, parentId) => (dispatch, getState) => {
 	const loggedUser = getState().users.loggedIn
 
 	// Add to comment to localStorage
-	const newComment = addNewComment(loggedUser, content, parentId)
+	const {newComment, parentComment} = addNewComment(loggedUser, content, parentId)
 
 	// Update state with the new comment
-	dispatch(commentAdded(newComment))
+	dispatch(commentAdded(newComment, parentComment))
 }
 
 const commentsSlice = createSlice({
@@ -122,23 +122,27 @@ const commentsSlice = createSlice({
 
 		commentAdded: {
 			reducer: (state, action) => {
-				const {newComment} = action.payload
-
-				let parentId = newComment.repliesTo
+				const {newComment, parentComment} = action.payload
 
 				// Check if the new comment is replying to someone
-				if (state.entities.hasOwnProperty(parentId)) {
-					// Add new comment's id to parent's replies array
-					state.entities[parentId].replies.push(newComment.id)
+				if (parentComment) {
+					// Update state with parentComment's updated replies array
+					commentsAdapter.updateOne(state, {
+						id: parentComment.id, 
+						changes: {
+							replies: parentComment.replies
+						}
+					})
 				}
 
 				// Add new comment using the adapter function
 				commentsAdapter.addOne(state, newComment)
 			},
-			prepare: (newComment) => {
+			prepare: (newComment, parentComment) => {
 				return {
 					payload: {
-						newComment
+						newComment,
+						parentComment
 					}
 				}
 			}
