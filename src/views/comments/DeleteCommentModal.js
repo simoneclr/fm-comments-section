@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { commentDeleted } from "../../store/comments/commentsSlice";
+import { deleteComment } from "../../store/comments/commentsSlice";
 
 // Displays a modal asking for confirmation when attempting to delete a comment
 function DeleteCommentModal({commentId, isActive, changeModalActive}) {
@@ -37,7 +37,7 @@ function DeleteCommentModal({commentId, isActive, changeModalActive}) {
 			
 			case BTN_CONFIRM_ID:
 				// If click on confirm button, dispatch delete action and then close the modal
-				dispatch(commentDeleted(commentId))
+				dispatch(deleteComment(commentId))
 				changeModalActive(false)
 				break;
 

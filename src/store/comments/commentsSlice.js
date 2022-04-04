@@ -1,6 +1,11 @@
 import { createEntityAdapter, createSelector, createSlice } from "@reduxjs/toolkit";
 
-import { addNewComment, getAllComments, editComment as editCommentById } from "../../utils/localStorage";
+import { 
+	addNewComment,
+	getAllComments,
+	editComment as editCommentById,
+	deleteComment as deleteCommentById
+} from "../../utils/localStorage";
 
 const commentsAdapter = createEntityAdapter({
 	// Sort comments by score (highest first)
@@ -51,6 +56,14 @@ export const editComment = (commentId, content) => (dispatch, getState) => {
 
 	dispatch(commentEdited(updatedComment))
 }
+
+// Thunk function that deletes a comment and all its descendants
+export const deleteComment = (commentId) => (dispatch, getState) => {
+	const deletedCommentsIds = deleteCommentById(commentId)
+
+	deletedCommentsIds.forEach(id => dispatch(commentDeleted(id)))
+}
+
 
 const commentsSlice = createSlice({
 	name: "comments",
@@ -185,7 +198,7 @@ const commentsSlice = createSlice({
 
 				// Remove all replies to the comment being removed
 				// TODO: Handle this more graciously
-				commentsAdapter.removeMany(state, comment.replies)
+				// commentsAdapter.removeMany(state, comment.replies)
 
 				// Remove the comment
 				commentsAdapter.removeOne(state, commentId)
@@ -209,11 +222,9 @@ const {
 	commentUpvoted,
 	commentDownvoted,
 	commentAdded,
-	commentEdited
+	commentEdited,
+	commentDeleted
 } = commentsSlice.actions
-
-// Exported actions
-export const { commentDeleted } = commentsSlice.actions
 
 export const {
 	selectIds: selectCommentIds,

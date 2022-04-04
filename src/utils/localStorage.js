@@ -255,6 +255,40 @@ const editComment = (commentId, content) => {
 	return updateComment(comment)
 }
 
+// Removes a comment and all its descendants
+// Returns an array of deleted comments ids
+const deleteComment = (commentId) => {
+	const comment = getCommentById(commentId)
+	const deletedCommentsIds = []
+
+	// If the comment being deleted is a reply, remove it from the parent's replies array
+	const parentComment = getCommentById(comment.repliesTo)
+
+	if (parentComment) {
+		parentComment.replies = parentComment.replies.filter(replyId => replyId !== comment.id)
+		updateComment(parentComment)
+	}
+
+	// Remove all replies to comment
+	// TODO: handle this more graciously
+	comment.replies.forEach(replyId => {
+		const deleted = deleteComment(replyId)
+		deletedCommentsIds.push(...deleted)
+	})
+
+	// Remove comment from localStorage
+	STORAGE.removeItem(storageKeys.comments.commentId(comment.id))
+
+	// Remove id from ids list and update it in localStorage
+	let ids = getCommentIds()
+	ids = ids.filter(id => id !== comment.id)
+	STORAGE.setItem(storageKeys.comments.ids, JSON.stringify(ids))
+
+	deletedCommentsIds.push(commentId)
+
+	return deletedCommentsIds
+}
+
 // Update an existing comment in localStorage
 const updateComment = (updatedComment) => {
 	const storedValue = JSON.stringify(updatedComment)
@@ -289,6 +323,6 @@ const getLoggedUserId = () => {
 }
 
 export { initStorage, 
-	getCommentIds, getAllComments, getCommentById, addNewComment, editComment,
+	getCommentIds, getAllComments, getCommentById, addNewComment, editComment, deleteComment,
 	getUserIds, getAllUsers, getUserById, getLoggedUserId
 }
