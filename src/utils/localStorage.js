@@ -248,10 +248,18 @@ const addNewComment = (userId, content, parentId) => {
 	return {newComment, parentComment}
 }
 
+// Edits a comment's content and updates it in localStorage
+const editComment = (commentId, content) => {
+	const comment = getCommentById(commentId)
+	comment.content = content
+	return updateComment(comment)
+}
+
 // Update an existing comment in localStorage
 const updateComment = (updatedComment) => {
 	const storedValue = JSON.stringify(updatedComment)
 	STORAGE.setItem(storageKeys.comments.commentId(updatedComment.id), storedValue)
+	return updatedComment
 }
 
 // Retrieve ids of all users
@@ -281,6 +289,6 @@ const getLoggedUserId = () => {
 }
 
 export { initStorage, 
-	getCommentIds, getAllComments, getCommentById, addNewComment,
+	getCommentIds, getAllComments, getCommentById, addNewComment, editComment,
 	getUserIds, getAllUsers, getUserById, getLoggedUserId
 }

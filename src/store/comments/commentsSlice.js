@@ -1,6 +1,6 @@
 import { createEntityAdapter, createSelector, createSlice } from "@reduxjs/toolkit";
 
-import { addNewComment, getAllComments } from "../../utils/localStorage";
+import { addNewComment, getAllComments, editComment as editCommentById } from "../../utils/localStorage";
 
 const commentsAdapter = createEntityAdapter({
 	// Sort comments by score (highest first)
@@ -43,6 +43,13 @@ export const addComment = (content, parentId) => (dispatch, getState) => {
 
 	// Update state with the new comment
 	dispatch(commentAdded(newComment, parentComment))
+}
+
+// Thunk function that edits a comment content
+export const editComment = (commentId, content) => (dispatch, getState) => {
+	const updatedComment = editCommentById(commentId, content)
+
+	dispatch(commentEdited(updatedComment))
 }
 
 const commentsSlice = createSlice({
@@ -150,19 +157,14 @@ const commentsSlice = createSlice({
 
 		commentEdited: {
 			reducer: (state, action) => {
-				const {commentId, content} = action.payload
-
-				const existingComment = state.entities[commentId]
-
-				if (existingComment) {
-					existingComment.content = content
-				}
+				const {editedComment} = action.payload
+				
+				commentsAdapter.upsertOne(state, editedComment)
 			},
-			prepare: (commentId, content) => {
+			prepare: (editedComment) => {
 				return {
 					payload: {
-						commentId,
-						content
+						editedComment
 					}
 				}
 			}
@@ -202,10 +204,16 @@ const commentsSlice = createSlice({
 export default commentsSlice.reducer
 
 // Actions that are not exported because they are accessed via thunks
-const {commentLoaded, commentUpvoted, commentDownvoted, commentAdded} = commentsSlice.actions
+const {
+	commentLoaded,
+	commentUpvoted,
+	commentDownvoted,
+	commentAdded,
+	commentEdited
+} = commentsSlice.actions
 
 // Exported actions
-export const {commentEdited, commentDeleted} = commentsSlice.actions
+export const { commentDeleted } = commentsSlice.actions
 
 export const {
 	selectIds: selectCommentIds,

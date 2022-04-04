@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { selectCommentById, commentEdited } from "../../store/comments/commentsSlice";
+import { editComment, selectCommentById } from "../../store/comments/commentsSlice";
 
 // Displays a comment's content and allows to edit it when appropriate
 function EditableCommentContent({commentId, isActive, changeFormActive}) {
@@ -41,7 +41,7 @@ function EditableCommentContent({commentId, isActive, changeFormActive}) {
 
 		// If the form is active, dispatch an edit action
 		if (isActive) {
-			dispatch(commentEdited(commentId, content))
+			dispatch(editComment(commentId, content))
 		}
 
 		// Close the edit form
