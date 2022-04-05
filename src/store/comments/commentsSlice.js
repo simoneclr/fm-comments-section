@@ -4,7 +4,9 @@ import {
 	addNewComment,
 	getAllComments,
 	editComment as editCommentById,
-	deleteComment as deleteCommentById
+	deleteComment as deleteCommentById,
+	upvoteComment as localStorageUpvoteComment,
+	downvoteComment as localStorageDownvoteComment
 } from "../../utils/localStorage";
 
 const commentsAdapter = createEntityAdapter({
@@ -27,15 +29,17 @@ export const loadComments = () => (dispatch, getState) => {
 // Thunk function that reads the logged user from global state before upvoting the specified comment
 export const upvoteComment = (commentId) => (dispatch, getState) => {
 	const loggedUser = getState().users.loggedIn
+	const upvotedComment = localStorageUpvoteComment(commentId) 
 
-	dispatch(commentUpvoted(commentId, loggedUser))
+	dispatch(commentUpvoted(upvotedComment, loggedUser))
 }
 
 // Thunk function that reads the logged user from global state before downvoting the specified comment
 export const downvoteComment = (commentId) => (dispatch, getState) => {
 	const loggedUser = getState().users.loggedIn
+	const downvotedComment = localStorageDownvoteComment(commentId)
 
-	dispatch(commentDownvoted(commentId, loggedUser))
+	dispatch(commentDownvoted(downvotedComment, loggedUser))
 }
 
 // Thunk function that reads the logged user from global state before adding a new comment
@@ -86,26 +90,39 @@ const commentsSlice = createSlice({
 
 		commentUpvoted: {
 			reducer: (state, action) => {
-				const {commentId, userId} = action.payload
+				const {comment, userId} = action.payload
 				
-				// Ckeck what the user has previously voted
-				const previousVote = state.entities[commentId].score.voters[userId]
+				// // Ckeck what the user has previously voted
+				// const previousVote = state.entities[commentId].score.voters[userId]
 
-				if (previousVote === -1) {
-					// If the user previously downvoted the comment, increase the score by 2
-					state.entities[commentId].score.value += 2
-				} else if (previousVote === 0 || !previousVote) {
-					// If the user has yet to vote, increase score by 1 
-					state.entities[commentId].score.value += 1
-				}
+				// if (previousVote === -1) {
+				// 	// If the user previously downvoted the comment, increase the score by 2
+				// 	state.entities[commentId].score.value += 2
+				// } else if (previousVote === 0 || !previousVote) {
+				// 	// If the user has yet to vote, increase score by 1 
+				// 	state.entities[commentId].score.value += 1
+				// }
 
-				// Store that the user has now upvoted the comment
-				state.entities[commentId].score.voters[userId] = 1
+				// // Store that the user has now upvoted the comment
+				// state.entities[commentId].score.voters[userId] = 1
+
+				commentsAdapter.updateOne(state, {
+					id: comment.id,
+					changes: {
+						score: {
+							value: comment.score.value,
+							voters: {
+								...comment.score.voters,
+								[userId]: comment.score.voters[userId]
+							}
+						}
+					}
+				})
 			},
-			prepare: (commentId, userId) => {
+			prepare: (comment, userId) => {
 				return {
 					payload: {
-						commentId,
+						comment,
 						userId
 					}
 				}
@@ -114,26 +131,39 @@ const commentsSlice = createSlice({
 
 		commentDownvoted: {
 			reducer: (state, action) => {
-				const {commentId, userId} = action.payload
+				const {comment, userId} = action.payload
 
-				// Ckeck what the user has previously voted
-				const previousVote = state.entities[commentId].score.voters[userId]
+				// // Ckeck what the user has previously voted
+				// const previousVote = state.entities[commentId].score.voters[userId]
 
-				if (previousVote === 1) {
-					// If the user previously upvoted the comment, decrease the score by 2
-					state.entities[commentId].score.value -= 2
-				} else if (previousVote === 0 || !previousVote) {
-					// If the user has yet to vote, decrease score by 1 
-					state.entities[commentId].score.value -= 1
-				}
+				// if (previousVote === 1) {
+				// 	// If the user previously upvoted the comment, decrease the score by 2
+				// 	state.entities[commentId].score.value -= 2
+				// } else if (previousVote === 0 || !previousVote) {
+				// 	// If the user has yet to vote, decrease score by 1 
+				// 	state.entities[commentId].score.value -= 1
+				// }
 
-				// Store that the user has now downvoted the comment
-				state.entities[commentId].score.voters[userId] = -1
+				// // Store that the user has now downvoted the comment
+				// state.entities[commentId].score.voters[userId] = -1
+
+				commentsAdapter.updateOne(state, {
+					id: comment.id,
+					changes: {
+						score: {
+							value: comment.score.value,
+							voters: {
+								...comment.score.voters,
+								[userId]: comment.score.voters[userId]
+							}
+						}
+					}
+				})
 			},
-			prepare: (commentId, userId) => {
+			prepare: (comment, userId) => {
 				return {
 					payload: {
-						commentId,
+						comment,
 						userId
 					}
 				}

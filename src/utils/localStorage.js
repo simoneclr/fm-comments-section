@@ -289,6 +289,52 @@ const deleteComment = (commentId) => {
 	return deletedCommentsIds
 }
 
+// Upvotes a comment
+const upvoteComment = (commentId) => {
+	const comment = getCommentById(commentId)
+	const voterId = getLoggedUserId()
+
+	// Ckeck what the user has previously voted
+	const previousVote = comment.score.voters[voterId]
+
+	if (previousVote === -1) {
+		// If the user previously downvoted the comment, increase the score by 2
+		comment.score.value += 2
+	} else if (previousVote === 0 || !previousVote) {
+		// If the user has yet to vote, increase score by 1 
+		comment.score.value += 1
+	}
+
+	// Store that the user has now upvoted the comment
+	comment.score.voters[voterId] = 1
+
+	// Update comment in localStorage
+	return updateComment(comment)
+}
+
+// Downvotes a comment
+const downvoteComment = (commentId) => {
+	const comment = getCommentById(commentId)
+	const voterId = getLoggedUserId()
+
+	// Ckeck what the user has previously voted
+	const previousVote = comment.score.voters[voterId]
+
+	if (previousVote === 1) {
+		// If the user previously upvoted the comment, decrease the score by 2
+		comment.score.value -= 2
+	} else if (previousVote === 0 || !previousVote) {
+		// If the user has yet to vote, decrease score by 1 
+		comment.score.value -= 1
+	}
+
+	// Store that the user has now downvoted the comment
+	comment.score.voters[voterId] = -1
+
+	// Update comment in localStorage
+	return updateComment(comment)
+}
+
 // Update an existing comment in localStorage
 const updateComment = (updatedComment) => {
 	const storedValue = JSON.stringify(updatedComment)
@@ -324,5 +370,6 @@ const getLoggedUserId = () => {
 
 export { initStorage, 
 	getCommentIds, getAllComments, getCommentById, addNewComment, editComment, deleteComment,
+	upvoteComment, downvoteComment,
 	getUserIds, getAllUsers, getUserById, getLoggedUserId
 }
